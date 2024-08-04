@@ -11,12 +11,13 @@ type Config struct {
 }
 
 type Database struct {
-	Dialect  string `yaml:"dialect" default:"postgres"`
-	Host     string `yaml:"host" default:"localhost"`
-	Port     string `yaml:"port"`
-	Name     string `yaml:"name"`
-	Username string `yaml:"username"`
-	Password string
+	Dialect   string `yaml:"dialect" default:"postgres"`
+	Host      string `yaml:"host" default:"localhost"`
+	Port      string `yaml:"port"`
+	Name      string `yaml:"name"`
+	Username  string `yaml:"username"`
+	Password  string
+	Migration bool `yaml:"migration"`
 }
 
 func NewConfig() *Config {

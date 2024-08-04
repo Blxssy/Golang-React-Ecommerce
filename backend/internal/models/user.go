@@ -1,6 +1,9 @@
 package models
 
-import "gorm.io/gorm"
+import (
+	"github.com/Blxssy/Golang-React-Ecommerce/internal/storage"
+	"gorm.io/gorm"
+)
 
 type User struct {
 	gorm.Model
@@ -10,4 +13,17 @@ type User struct {
 	PassHash   string `json:"pass_hash"`
 	AvatarPath string `gotrm:"default:https://api.multiavatar.com/"`
 	Phone      string `json:"phone"`
+}
+
+// func NewUser() *User{
+// 	return &User{
+
+// 	}
+// }
+
+func (u *User) Create(s storage.Storage) (*User, error) {
+	if err := s.Select("username", "pass_hash", "avatar_path", "email", "phone").Create(u).Error; err != nil {
+		return nil, err
+	}
+	return u, nil
 }

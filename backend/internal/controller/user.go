@@ -64,13 +64,23 @@ func (u *userController) RegisterUser(c *gin.Context) {
 		Phone:      faker.Phonenumber(),
 	}
 
-	u.container.GetRepository().Create(&user)
+	usr, err := u.service.CreateUser(&user)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	}
+	// u.container.GetRepository().Create(&user)
 
-	c.JSON(http.StatusOK, user)
+	c.JSON(http.StatusOK, usr)
 }
 
 func (u *userController) GetUsers(c *gin.Context) {
+	users, err := u.service.FindAllUsers()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Cannot load users"})
+		return
+	}
 
+	c.JSON(http.StatusOK, users)
 }
 
 func (u *userController) GetUserByID(c *gin.Context) {

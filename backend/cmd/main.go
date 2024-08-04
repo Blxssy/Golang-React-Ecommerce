@@ -7,6 +7,7 @@ import (
 	"github.com/Blxssy/Golang-React-Ecommerce/internal/config"
 	"github.com/Blxssy/Golang-React-Ecommerce/internal/container"
 	"github.com/Blxssy/Golang-React-Ecommerce/internal/logger"
+	"github.com/Blxssy/Golang-React-Ecommerce/internal/migration"
 	"github.com/Blxssy/Golang-React-Ecommerce/internal/router"
 	"github.com/Blxssy/Golang-React-Ecommerce/internal/storage"
 	"github.com/gin-gonic/gin"
@@ -33,6 +34,8 @@ func main() {
 	storage := storage.NewStorage(logger, config)
 
 	container := container.NewContainer(storage, config, logger, envLocal)
+
+	migration.CreateDatabase(container)
 
 	router.Init(g, container)
 

@@ -5,3 +5,4 @@ database:
   port: '5432'
   name: 'e-commerce'
   username: 'postgres'
+  migration: true

@@ -3,6 +3,7 @@ package service
 import (
 	"github.com/Blxssy/Golang-React-Ecommerce/internal/container"
 	"github.com/Blxssy/Golang-React-Ecommerce/internal/models"
+	"github.com/Blxssy/Golang-React-Ecommerce/internal/storage"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -14,6 +15,7 @@ type UserService interface {
 	FindByEmail(email string) (*models.User, error)
 	FindAllUsers() (*[]models.User, error)
 	UpdateUser(user models.User) error
+	CreateUser(user *models.User) (*models.User, error)
 }
 
 type userService struct {
@@ -44,7 +46,11 @@ func (u *userService) FindByEmail(email string) (*models.User, error) {
 }
 
 func (u *userService) FindAllUsers() (*[]models.User, error) {
-	return nil, nil
+	var users []models.User
+	if err := u.container.GetRepository().Find(&users).Error; err != nil {
+		return nil, err
+	}
+	return &users, nil
 }
 
 func (u *userService) UpdateUser(user models.User) error {
@@ -56,4 +62,31 @@ func (u *userService) ValidatePassword(password string, hashedPassword string) b
 		return false
 	}
 	return true
+}
+
+func (u *userService) CreateUser(user *models.User) (*models.User, error) {
+	s := u.container.GetRepository()
+	var result *models.User
+	var err error
+
+	if txerr := s.Transaction(func(tx storage.Storage) error {
+		result, err = txCreateUser(tx, user)
+		return err
+	}); txerr != nil {
+		u.container.GetLogger().Error(txerr.Error())
+		return nil, txerr
+	}
+
+	return result, nil
+}
+
+func txCreateUser(txstorage storage.Storage, user *models.User) (*models.User, error) {
+	var result *models.User
+	var err error
+
+	if result, err = user.Create(txstorage); err != nil {
+		return nil, err
+	}
+
+	return result, nil
 }
