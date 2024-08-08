@@ -1,7 +1,7 @@
 // src/components/UserList.js
 import React, { useEffect, useState } from 'react'
+import '../styles/UserList.css'
 import UserCard from './UserCard'
-import './UserList.css'
 
 const UserList = () => {
 	const [users, setUsers] = useState([])

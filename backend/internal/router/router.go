@@ -11,6 +11,7 @@ import (
 func Init(g *gin.Engine, container container.Container) {
 	setCORSConfig(g)
 	setUserController(g, container)
+	setProductController(g, container)
 }
 
 func setCORSConfig(g *gin.Engine) {
@@ -26,9 +27,16 @@ func setCORSConfig(g *gin.Engine) {
 func setUserController(g *gin.Engine, container container.Container) {
 	user := controller.NewUserController(container)
 	g.POST(config.APIREGISTER, user.RegisterUser)
+	g.POST(config.APILOGIN, user.Login)
 	g.GET(config.APIUsers, user.GetUsers)
 	g.GET(config.APIUsersID, user.GetUserByID)
 	g.POST(config.APIUsers, user.CreateUser)
 	g.PUT(config.APIUsersID, user.UpdateUser)
 	g.DELETE(config.APIUsersID, user.DeleteUser)
+}
+
+func setProductController(g *gin.Engine, container container.Container) {
+	product := controller.NewProducController(container)
+	g.GET(config.APIProducts, product.GetProducts)
+	g.POST(config.APIProducts, product.CreateProduct)
 }

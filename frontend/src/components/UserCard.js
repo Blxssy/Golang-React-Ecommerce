@@ -1,6 +1,6 @@
 // src/components/UserCard.js
 import React from 'react'
-import './UserCard.css'
+import '../styles/UserCard.css'
 
 const UserCard = ({ user }) => {
 	return (

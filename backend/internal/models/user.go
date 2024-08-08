@@ -9,9 +9,9 @@ type User struct {
 	gorm.Model
 
 	Username   string `json:"username"`
-	Email      string `json:"email"`
+	Email      string `json:"email" gorm:"unique"`
 	PassHash   string `json:"pass_hash"`
-	AvatarPath string `gotrm:"default:https://api.multiavatar.com/"`
+	AvatarPath string `gorm:"default:https://api.multiavatar.com/"`
 	Phone      string `json:"phone"`
 }
 

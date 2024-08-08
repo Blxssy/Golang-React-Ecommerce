@@ -1,19 +1,19 @@
 package controller
 
 import (
+	"errors"
 	"net/http"
 
 	"github.com/Blxssy/Golang-React-Ecommerce/internal/container"
-	"github.com/Blxssy/Golang-React-Ecommerce/internal/models"
 	"github.com/Blxssy/Golang-React-Ecommerce/internal/service"
-	"github.com/Blxssy/Golang-React-Ecommerce/internal/utils/avatar"
-	"github.com/bxcodec/faker/v3"
 	"github.com/gin-gonic/gin"
-	"golang.org/x/crypto/bcrypt"
+	"gorm.io/gorm"
 )
 
 type UserController interface {
 	RegisterUser(c *gin.Context)
+	Login(c *gin.Context)
+
 	GetUsers(c *gin.Context)
 	GetUserByID(c *gin.Context)
 	CreateUser(c *gin.Context)
@@ -44,33 +44,55 @@ func (u *userController) RegisterUser(c *gin.Context) {
 		return
 	}
 
-	result, _ := u.service.FindByEmail(input.Email)
-	if result != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "User already exists"})
+	user, accessToken, refreshToken, err := u.service.RegisterUser(input.Email, input.Password)
+	if err != nil {
+		if errors.Is(err, gorm.ErrRegistered) {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "User already exists"})
+			return
+		}
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(input.Password), bcrypt.DefaultCost)
+	response := map[string]interface{}{
+		"user": gin.H{
+			"id":    user.ID,
+			"email": user.Email,
+		},
+		"access_token":  accessToken,
+		"refresh_token": refreshToken,
+	}
+
+	c.JSON(http.StatusOK, response)
+}
+
+func (u *userController) Login(c *gin.Context) {
+	var input struct {
+		Email    string `json:"email"`
+		Password string `json:"password"`
+	}
+
+	if err := c.ShouldBindJSON(&input); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid credentials"})
+		return
+	}
+
+	usr, accessToken, refreshToken, err := u.service.LoginUser(input.Email, input.Password)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
 	}
 
-	username := faker.Username()
-	user := models.User{
-		Email:      input.Email,
-		Username:   username,
-		PassHash:   string(hashedPassword),
-		AvatarPath: avatar.GenerateRandomAvatar(username),
-		Phone:      faker.Phonenumber(),
+	response := map[string]interface{}{
+		"user": gin.H{
+			"id":    usr.ID,
+			"email": usr.Email,
+		},
+		"access_token":  accessToken,
+		"refresh_token": refreshToken,
 	}
 
-	usr, err := u.service.CreateUser(&user)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-	}
-	// u.container.GetRepository().Create(&user)
-
-	c.JSON(http.StatusOK, usr)
+	c.JSON(http.StatusOK, response)
 }
 
 func (u *userController) GetUsers(c *gin.Context) {

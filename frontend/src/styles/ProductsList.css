@@ -1,0 +1,15 @@
+.products-container {
+	display: flex;
+	justify-content: center;
+	padding: 20px;
+	width: 100%;
+	box-sizing: border-box;
+}
+
+.products-list {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	width: 100%;
+	max-width: 1000px;
+}

@@ -1,0 +1,32 @@
+/* src/pages/Home.css */
+.home {
+	text-align: center;
+}
+
+.auth-buttons {
+	margin-bottom: 20px;
+}
+
+.auth-buttons button {
+	margin: 0 10px;
+	padding: 10px 20px;
+	border: none;
+	border-radius: 4px;
+	background-color: #007bff;
+	color: white;
+	cursor: pointer;
+}
+
+.auth-buttons {
+	justify-content: center;
+}
+
+.auth-buttons button:hover {
+	background-color: #0056b3;
+}
+
+h1 {
+	font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+	font-weight: 550;
+	font-size: 2em;
+}
