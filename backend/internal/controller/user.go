@@ -2,6 +2,7 @@ package controller
 
 import (
 	"errors"
+	"github.com/Blxssy/Golang-React-Ecommerce/internal/utils/token"
 	"net/http"
 
 	"github.com/Blxssy/Golang-React-Ecommerce/internal/container"
@@ -13,6 +14,7 @@ import (
 type UserController interface {
 	RegisterUser(c *gin.Context)
 	Login(c *gin.Context)
+	RefreshTokens(c *gin.Context)
 
 	GetUsers(c *gin.Context)
 	GetUserByID(c *gin.Context)
@@ -63,6 +65,9 @@ func (u *userController) RegisterUser(c *gin.Context) {
 		"refresh_token": refreshToken,
 	}
 
+	c.SetCookie("access_token", accessToken, 900, "/", "localhost", false, true)
+	c.SetCookie("refresh_token", refreshToken, 604800, "/", "localhost", false, true)
+
 	c.JSON(http.StatusOK, response)
 }
 
@@ -83,6 +88,9 @@ func (u *userController) Login(c *gin.Context) {
 		return
 	}
 
+	c.SetCookie("access_token", accessToken, 900, "/", "localhost", false, true)
+	c.SetCookie("refresh_token", refreshToken, 604800, "/", "localhost", false, true)
+
 	response := map[string]interface{}{
 		"user": gin.H{
 			"id":    usr.ID,
@@ -93,6 +101,31 @@ func (u *userController) Login(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, response)
+}
+
+func (u *userController) RefreshTokens(c *gin.Context) {
+	var input struct {
+		RefreshToken string `json:"refresh_token"`
+	}
+
+	if err := c.ShouldBindJSON(&input); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid credentials"})
+		return
+	}
+
+	accessToken, refreshToken, err := token.UpdateToken(input.RefreshToken)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.SetCookie("accessToken", accessToken, 900, "/", "localhost", false, true)
+	c.SetCookie("refreshToken", refreshToken, 604800, "/", "localhost", false, true)
+
+	c.JSON(http.StatusOK, gin.H{
+		"accessToken":  accessToken,
+		"refreshToken": refreshToken,
+	})
 }
 
 func (u *userController) GetUsers(c *gin.Context) {

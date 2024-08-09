@@ -7,6 +7,7 @@ const (
 	APIAUTH     = API + "/auth"
 	APIREGISTER = APIAUTH + "/register"
 	APILOGIN    = APIAUTH + "/login"
+	APIREFRESH  = APIAUTH + "/refresh"
 )
 
 const (

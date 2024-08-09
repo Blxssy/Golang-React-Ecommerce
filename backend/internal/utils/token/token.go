@@ -1,58 +1,38 @@
 package token
 
 import (
+	"errors"
 	"fmt"
 	"log"
 	"os"
 	"time"
 
-	"github.com/Blxssy/Golang-React-Ecommerce/internal/models"
 	"github.com/golang-jwt/jwt"
-	"github.com/joho/godotenv"
-	"gorm.io/gorm"
 )
 
-var (
+const accessTokenDuration = time.Minute * 15
+const refreshTokenDuration = time.Hour * 24 * 7
+
+func InitJWTKey() {
 	jwtKey = []byte(os.Getenv("JWT_KEY"))
-)
+}
+
+var jwtKey []byte
 
 type Claims struct {
 	UserID uint `json:"user_id"`
 	jwt.StandardClaims
 }
 
-func Init() {
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatalf("Error loading .env file")
-		os.Exit(1)
-	}
-}
-
-func GetNewTokens(db *gorm.DB, refreshToken string) (string, string, error) {
-	id, err := VerifyToken(refreshToken)
-	if err != nil {
-		log.Fatal("Invalid referesh token")
-	}
-
-	var user models.User
-	if err := db.First(&user, id).Error; err != nil {
-		if gorm.ErrRecordNotFound == err {
-			log.Println("User not found")
-			return "", "", nil
-		} else {
-			log.Fatal(err)
-		}
-	}
-
+func GetNewTokens(userID uint) (string, string, error) {
 	// TODO: Вынести TTL в конфиг
-	accessToken, err := NewToken(user.ID, time.Hour*24)
+	accessToken, err := NewToken(userID, accessTokenDuration)
 	if err != nil {
 		log.Fatal(err)
 		return "", "", nil
 	}
 
-	refreshToken, err = NewToken(user.ID, time.Hour*24*7)
+	refreshToken, err := NewToken(userID, refreshTokenDuration)
 	if err != nil {
 		log.Fatal(err)
 		return "", "", nil
@@ -77,6 +57,33 @@ func NewToken(userID uint, ttl time.Duration) (string, error) {
 	}
 
 	return tokenString, nil
+}
+
+func UpdateToken(refreshTokenString string) (string, string, error) {
+	claims := &Claims{}
+	refreshToken, err := jwt.ParseWithClaims(refreshTokenString, claims, func(token *jwt.Token) (interface{}, error) {
+		return jwtKey, nil
+	})
+	if err != nil {
+		return "", "", err
+	}
+
+	if !refreshToken.Valid {
+		return "", "", errors.New("invalid refresh token")
+	}
+
+	return GetNewTokens(claims.UserID)
+}
+
+func ValidateToken(refreshToken string) bool {
+	claims := &Claims{}
+	_, err := jwt.ParseWithClaims(refreshToken, claims, func(token *jwt.Token) (interface{}, error) {
+		return jwtKey, nil
+	})
+	if err != nil {
+		return false
+	}
+	return true
 }
 
 func VerifyToken(tokenString string) (uint, error) {

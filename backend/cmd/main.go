@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/Blxssy/Golang-React-Ecommerce/internal/utils/token"
 	"log"
 	"os"
 
@@ -24,6 +25,8 @@ func main() {
 		log.Fatalf("Error loading .env file")
 		os.Exit(1)
 	}
+
+	token.InitJWTKey()
 
 	g := gin.Default()
 

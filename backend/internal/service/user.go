@@ -83,7 +83,9 @@ func (u *userService) LoginUser(email string, password string) (*models.User, st
 	if err != nil {
 		return nil, "", "", err
 	}
-
+	//logger := u.container.GetLogger()
+	//logger.Info("LoginUser", slog.Any("user", user))
+	//logger.Info("LoginUser", slog.Any("pas", password))
 	if err := bcrypt.CompareHashAndPassword([]byte(user.PassHash), []byte(password)); err != nil {
 		return nil, "", "", err
 	}
@@ -107,7 +109,7 @@ func (u *userService) FindById(id string) (*models.User, error) {
 
 func (u *userService) FindByEmail(email string) (*models.User, error) {
 	var user models.User
-	if result := u.container.GetRepository().Where("email = ?", email).First(&user); result != nil {
+	if result := u.container.GetRepository().Where("email = ?", email).First(&user).Error; result != nil {
 		// u.container.GetLogger().Info("res", slog.Any("res", result))
 		return nil, gorm.ErrRecordNotFound
 	}

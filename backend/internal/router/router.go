@@ -18,8 +18,7 @@ func setCORSConfig(g *gin.Engine) {
 	g.Use(cors.New(cors.Config{
 		AllowOrigins:     []string{"http://localhost:3000"},
 		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE"},
-		AllowHeaders:     []string{"Origin", "Content-Type"},
-		ExposeHeaders:    []string{"Content-Length"},
+		AllowHeaders:     []string{"Origin", "Content-Type", "Authorization"},
 		AllowCredentials: true,
 	}))
 }
@@ -28,6 +27,7 @@ func setUserController(g *gin.Engine, container container.Container) {
 	user := controller.NewUserController(container)
 	g.POST(config.APIREGISTER, user.RegisterUser)
 	g.POST(config.APILOGIN, user.Login)
+	g.POST(config.APIREFRESH, user.RefreshTokens)
 	g.GET(config.APIUsers, user.GetUsers)
 	g.GET(config.APIUsersID, user.GetUserByID)
 	g.POST(config.APIUsers, user.CreateUser)
