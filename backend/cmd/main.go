@@ -30,17 +30,17 @@ func main() {
 
 	g := gin.Default()
 
-	config := config.NewConfig()
+	cfg := config.NewConfig()
 
-	logger := logger.SetupLogger(envLocal)
+	l := logger.SetupLogger(envLocal)
 
-	storage := storage.NewStorage(logger, config)
+	mainStorage := storage.NewStorage(l, cfg)
 
-	container := container.NewContainer(storage, config, logger, envLocal)
+	ctr := container.NewContainer(mainStorage, cfg, l, envLocal)
 
-	migration.CreateDatabase(container)
+	migration.CreateDatabase(ctr)
 
-	router.Init(g, container)
+	router.Init(g, ctr)
 
 	g.Run(":3001")
 }

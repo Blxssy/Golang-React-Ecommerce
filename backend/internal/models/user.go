@@ -2,6 +2,8 @@ package models
 
 import (
 	"github.com/Blxssy/Golang-React-Ecommerce/internal/storage"
+	"github.com/bxcodec/faker/v3"
+	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 )
 
@@ -26,4 +28,15 @@ func (u *User) Create(s storage.Storage) (*User, error) {
 		return nil, err
 	}
 	return u, nil
+}
+
+func NewUserWithPlainPassword(name string, email string, password string) *User {
+	hashed, _ := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+	return &User{
+		Model:    gorm.Model{},
+		Username: name,
+		Email:    email,
+		PassHash: string(hashed),
+		Phone:    faker.Phonenumber(),
+	}
 }

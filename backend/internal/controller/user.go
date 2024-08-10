@@ -4,6 +4,7 @@ import (
 	"errors"
 	"github.com/Blxssy/Golang-React-Ecommerce/internal/utils/token"
 	"net/http"
+	"strconv"
 
 	"github.com/Blxssy/Golang-React-Ecommerce/internal/container"
 	"github.com/Blxssy/Golang-React-Ecommerce/internal/service"
@@ -15,6 +16,7 @@ type UserController interface {
 	RegisterUser(c *gin.Context)
 	Login(c *gin.Context)
 	RefreshTokens(c *gin.Context)
+	GetInfo(c *gin.Context)
 
 	GetUsers(c *gin.Context)
 	GetUserByID(c *gin.Context)
@@ -95,6 +97,8 @@ func (u *userController) Login(c *gin.Context) {
 		"user": gin.H{
 			"id":    usr.ID,
 			"email": usr.Email,
+			"img":   usr.AvatarPath,
+			"phone": usr.Phone,
 		},
 		"access_token":  accessToken,
 		"refresh_token": refreshToken,
@@ -128,6 +132,34 @@ func (u *userController) RefreshTokens(c *gin.Context) {
 	})
 }
 
+func (u *userController) GetInfo(c *gin.Context) {
+	accessToken, err := c.Cookie("access_token")
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid token"})
+		return
+	}
+
+	userID, err := token.VerifyToken(accessToken)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	user, err := u.service.FindById(strconv.Itoa(int(userID)))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"username": user.Username,
+		"email":    user.Email,
+		"img":      user.AvatarPath,
+		"phone":    user.Phone,
+	})
+}
+
 func (u *userController) GetUsers(c *gin.Context) {
 	users, err := u.service.FindAllUsers()
 	if err != nil {
@@ -139,7 +171,6 @@ func (u *userController) GetUsers(c *gin.Context) {
 }
 
 func (u *userController) GetUserByID(c *gin.Context) {
-
 }
 
 func (u *userController) CreateUser(c *gin.Context) {

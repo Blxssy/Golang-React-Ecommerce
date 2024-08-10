@@ -37,12 +37,10 @@ func NewUserService(container container.Container) UserService {
 
 func (u *userService) RegisterUser(email string, password string) (*models.User, string, string, error) {
 	result, err := u.FindByEmail(email)
-	// u.container.GetLogger().Info("err", slog.String("err", err.Error()))
-	// u.container.GetLogger().Info("res", slog.Any("res", result))
 	if err != nil && !errors.Is(err, gorm.ErrRecordNotFound) {
 		return nil, "", "", err
 	}
-	// log.Println(1)
+
 	if result != nil {
 		return nil, "", "", errors.New("user already exists")
 	}
@@ -104,7 +102,11 @@ func (u *userService) LoginUser(email string, password string) (*models.User, st
 }
 
 func (u *userService) FindById(id string) (*models.User, error) {
-	return nil, nil
+	var user models.User
+	if err := u.container.GetRepository().First(&user, id).Error; err != nil {
+		return nil, nil
+	}
+	return &user, nil
 }
 
 func (u *userService) FindByEmail(email string) (*models.User, error) {
