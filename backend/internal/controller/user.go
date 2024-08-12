@@ -37,6 +37,16 @@ func NewUserController(container container.Container) UserController {
 	}
 }
 
+// RegisterUser godoc
+// @Summary Register a new user
+// @Description Registers a new user with the provided email and password.
+// @Tags Users
+// @Accept  json
+// @Produce  json
+// @Param   user   body    object{email=string,password=string}  true  "User credentials"
+// @Success 200 {object} map[string]interface{} "User registered successfully"
+// @Failure 400 {object} map[string]string "Invalid credentials / User already exists"
+// @Router /api/auth/register [post]
 func (u *userController) RegisterUser(c *gin.Context) {
 	var input struct {
 		Email    string `json:"email"`

@@ -1,0 +1,38 @@
+info:
+  contact: {}
+paths:
+  /api/auth/register:
+    post:
+      consumes:
+      - application/json
+      description: Registers a new user with the provided email and password.
+      parameters:
+      - description: User credentials
+        in: body
+        name: user
+        required: true
+        schema:
+          properties:
+            email:
+              type: string
+            password:
+              type: string
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: User registered successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Invalid credentials / User already exists
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Register a new user
+      tags:
+      - Users
+swagger: "2.0"
