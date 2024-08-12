@@ -83,6 +83,15 @@ func (u *userController) RegisterUser(c *gin.Context) {
 	c.JSON(http.StatusOK, response)
 }
 
+// Login godoc
+// @Summary Login user
+// @Tags Users
+// @Accept json
+// @Produce json
+// @Param user body object{email=string,password=string} true "User credentials"
+// @Success 200 {object} map[string]interface{} "User registered successfully"
+// @Failure 400 {object} map[string]string "Invalid credentials"
+// @Router /api/auth/login [post]
 func (u *userController) Login(c *gin.Context) {
 	var input struct {
 		Email    string `json:"email"`
@@ -117,6 +126,16 @@ func (u *userController) Login(c *gin.Context) {
 	c.JSON(http.StatusOK, response)
 }
 
+// RefreshTokens godoc
+// @Summary Get new tokens
+// @Description Take refresh token and produce 2 new tokens
+// @Tags Users
+// @Accept json
+// @Produce json
+// Param token body object{refresh_token=string} true "Refresh token"
+// Success 200 {object} map[string]string "Tokens generated successfully"
+// @Failure 400 {object} map[string]string "Invalid token"
+// @Router /api/auth/refresh [post]
 func (u *userController) RefreshTokens(c *gin.Context) {
 	var input struct {
 		RefreshToken string `json:"refresh_token"`
@@ -142,6 +161,16 @@ func (u *userController) RefreshTokens(c *gin.Context) {
 	})
 }
 
+// GetInfo godoc
+// @Summary Get user info
+// @Description Take access token and provide user info
+// @Tags Users
+// @Accept json
+// @Produce json
+// Param token body object{access_token=string} true "Access token"
+// Success 200 {object} map[string]interface{} "Info provided successfully"
+// @Failure 400 {object} map[string]string "Invalid token"
+// @Router /api/auth/user-info [get]
 func (u *userController) GetInfo(c *gin.Context) {
 	accessToken, err := c.Cookie("access_token")
 
@@ -170,6 +199,15 @@ func (u *userController) GetInfo(c *gin.Context) {
 	})
 }
 
+// GetUsers godoc
+// @Summary Get users info
+// @Description Provide users info
+// @Tags Users
+// @Accept json
+// @Produce json
+// Success 200 {object} map[string]interface{} "Info provided successfully"
+// @Failure 400 {object} map[string]string "Server error"
+// @Router /api/users [get]
 func (u *userController) GetUsers(c *gin.Context) {
 	users, err := u.service.FindAllUsers()
 	if err != nil {

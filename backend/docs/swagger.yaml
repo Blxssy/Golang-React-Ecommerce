@@ -1,6 +1,56 @@
 info:
   contact: {}
 paths:
+  /api/auth/login:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: User credentials
+        in: body
+        name: user
+        required: true
+        schema:
+          properties:
+            email:
+              type: string
+            password:
+              type: string
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: User registered successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Invalid credentials
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Login user
+      tags:
+      - Users
+  /api/auth/refresh:
+    post:
+      consumes:
+      - application/json
+      description: Take refresh token and produce 2 new tokens
+      produces:
+      - application/json
+      responses:
+        "400":
+          description: Invalid token
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get new tokens
+      tags:
+      - Users
   /api/auth/register:
     post:
       consumes:
@@ -33,6 +83,40 @@ paths:
               type: string
             type: object
       summary: Register a new user
+      tags:
+      - Users
+  /api/auth/user-info:
+    get:
+      consumes:
+      - application/json
+      description: Take access token and provide user info
+      produces:
+      - application/json
+      responses:
+        "400":
+          description: Invalid token
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get user info
+      tags:
+      - Users
+  /api/users:
+    get:
+      consumes:
+      - application/json
+      description: Provide users info
+      produces:
+      - application/json
+      responses:
+        "400":
+          description: Server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get users info
       tags:
       - Users
 swagger: "2.0"
