@@ -1,19 +1,26 @@
 package service
 
 import (
+	"log/slog"
+	"strconv"
+	"testing"
+
 	"github.com/Blxssy/Golang-React-Ecommerce/internal/container"
 	"github.com/Blxssy/Golang-React-Ecommerce/internal/models"
 	"github.com/Blxssy/Golang-React-Ecommerce/internal/test"
 	"github.com/stretchr/testify/assert"
-	"strconv"
-	"testing"
 )
 
 func TestUserService_RegisterUser(t *testing.T) {
 	container := test.PrepareForServiceTest()
+	log := container.GetLogger()
 
 	service := NewUserService(container)
-	res, token, refresh, err := service.RegisterUser("test", "test")
+	res, token, refresh, err := service.RegisterUser("name", "register@test.com", "test")
+
+	log.Info("REgisterUser", slog.Any("User", res))
+	log.Info("REgisterUser", slog.String("Access_token", token))
+	log.Info("REgisterUser", slog.String("Refresh_token", refresh))
 
 	assert.NoError(t, err)
 	assert.NotEmpty(t, token)

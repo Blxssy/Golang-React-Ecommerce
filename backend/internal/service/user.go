@@ -9,13 +9,12 @@ import (
 	"github.com/Blxssy/Golang-React-Ecommerce/internal/storage"
 	"github.com/Blxssy/Golang-React-Ecommerce/internal/utils/avatar"
 	"github.com/Blxssy/Golang-React-Ecommerce/internal/utils/token"
-	"github.com/bxcodec/faker/v3"
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 )
 
 type UserService interface {
-	RegisterUser(email string, password string) (*models.User, string, string, error)
+	RegisterUser(username string, email string, password string) (*models.User, string, string, error)
 	LoginUser(email string, password string) (*models.User, string, string, error)
 
 	FindById(id string) (*models.User, error)
@@ -35,7 +34,7 @@ func NewUserService(container container.Container) UserService {
 	}
 }
 
-func (u *userService) RegisterUser(email string, password string) (*models.User, string, string, error) {
+func (u *userService) RegisterUser(username string, email string, password string) (*models.User, string, string, error) {
 	result, err := u.FindByEmail(email)
 	if err != nil && !errors.Is(err, gorm.ErrRecordNotFound) {
 		return nil, "", "", err
@@ -50,13 +49,12 @@ func (u *userService) RegisterUser(email string, password string) (*models.User,
 		return nil, "", "", err
 	}
 
-	username := faker.FirstName()
 	user := &models.User{
-		Email:      email,
 		Username:   username,
+		Email:      email,
 		PassHash:   string(hashedPassword),
 		AvatarPath: avatar.GenerateRandomAvatar(username),
-		Phone:      faker.Phonenumber(),
+		Phone:      "",
 	}
 
 	if err := u.CreateUser(user); err != nil {
@@ -81,9 +79,7 @@ func (u *userService) LoginUser(email string, password string) (*models.User, st
 	if err != nil {
 		return nil, "", "", err
 	}
-	//logger := u.container.GetLogger()
-	//logger.Info("LoginUser", slog.Any("user", user))
-	//logger.Info("LoginUser", slog.Any("pas", password))
+
 	if err := bcrypt.CompareHashAndPassword([]byte(user.PassHash), []byte(password)); err != nil {
 		return nil, "", "", err
 	}
@@ -112,7 +108,6 @@ func (u *userService) FindById(id string) (*models.User, error) {
 func (u *userService) FindByEmail(email string) (*models.User, error) {
 	var user models.User
 	if result := u.container.GetRepository().Where("email = ?", email).First(&user).Error; result != nil {
-		// u.container.GetLogger().Info("res", slog.Any("res", result))
 		return nil, gorm.ErrRecordNotFound
 	}
 

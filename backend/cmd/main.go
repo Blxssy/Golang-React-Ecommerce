@@ -1,11 +1,12 @@
 package main
 
 import (
+	"log"
+	"os"
+
 	"github.com/Blxssy/Golang-React-Ecommerce/internal/utils/token"
 	files "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
-	"log"
-	"os"
 
 	_ "github.com/Blxssy/Golang-React-Ecommerce/docs"
 	"github.com/Blxssy/Golang-React-Ecommerce/internal/config"
@@ -33,6 +34,7 @@ func main() {
 
 	g := gin.Default()
 	g.GET("/swagger/*any", ginSwagger.WrapHandler(files.Handler))
+
 	cfg := config.NewConfig()
 
 	l := logger.SetupLogger(envLocal)

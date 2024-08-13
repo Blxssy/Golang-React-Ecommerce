@@ -2,9 +2,10 @@ package controller
 
 import (
 	"errors"
-	"github.com/Blxssy/Golang-React-Ecommerce/internal/utils/token"
 	"net/http"
 	"strconv"
+
+	"github.com/Blxssy/Golang-React-Ecommerce/internal/utils/token"
 
 	"github.com/Blxssy/Golang-React-Ecommerce/internal/container"
 	"github.com/Blxssy/Golang-React-Ecommerce/internal/service"
@@ -43,14 +44,15 @@ func NewUserController(container container.Container) UserController {
 // @Tags Users
 // @Accept  json
 // @Produce  json
-// @Param   user   body    object{email=string,password=string}  true  "User credentials"
+// @Param   user   body    object{username=string,email=string,password=string}  true  "User credentials"
 // @Success 200 {object} map[string]interface{} "User registered successfully"
 // @Failure 400 {object} map[string]string "Invalid credentials / User already exists"
 // @Router /api/auth/register [post]
 func (u *userController) RegisterUser(c *gin.Context) {
 	var input struct {
-		Email    string `json:"email"`
-		Password string `json:"password"`
+		Username string `json:"username"`
+		Email    string `json:"email" validate:"required,email"`
+		Password string `json:"password" validate:"required,password"`
 	}
 
 	if err := c.ShouldBindJSON(&input); err != nil {
@@ -58,7 +60,7 @@ func (u *userController) RegisterUser(c *gin.Context) {
 		return
 	}
 
-	user, accessToken, refreshToken, err := u.service.RegisterUser(input.Email, input.Password)
+	user, accessToken, refreshToken, err := u.service.RegisterUser(input.Username, input.Email, input.Password)
 	if err != nil {
 		if errors.Is(err, gorm.ErrRegistered) {
 			c.JSON(http.StatusBadRequest, gin.H{"error": "User already exists"})
@@ -77,8 +79,8 @@ func (u *userController) RegisterUser(c *gin.Context) {
 		"refresh_token": refreshToken,
 	}
 
-	c.SetCookie("access_token", accessToken, 900, "/", "localhost", false, true)
-	c.SetCookie("refresh_token", refreshToken, 604800, "/", "localhost", false, true)
+	//c.SetCookie("access_token", accessToken, 900, "/", "localhost", false, true)
+	//c.SetCookie("refresh_token", refreshToken, 604800, "/", "localhost", false, true)
 
 	c.JSON(http.StatusOK, response)
 }
@@ -167,10 +169,9 @@ func (u *userController) RefreshTokens(c *gin.Context) {
 // @Tags Users
 // @Accept json
 // @Produce json
-// Param token body object{access_token=string} true "Access token"
 // Success 200 {object} map[string]interface{} "Info provided successfully"
 // @Failure 400 {object} map[string]string "Invalid token"
-// @Router /api/auth/user-info [get]
+// @Router /api/auth/user-info [post]
 func (u *userController) GetInfo(c *gin.Context) {
 	accessToken, err := c.Cookie("access_token")
 

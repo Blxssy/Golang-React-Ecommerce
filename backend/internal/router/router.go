@@ -27,7 +27,7 @@ func setUserController(g *gin.Engine, container container.Container) {
 	user := controller.NewUserController(container)
 	g.POST(config.APIREGISTER, user.RegisterUser)
 	g.POST(config.APILOGIN, user.Login)
-	g.GET(config.APIUSERINFO, user.GetInfo)
+	g.POST(config.APIUSERINFO, user.GetInfo)
 	g.POST(config.APIREFRESH, user.RefreshTokens)
 	g.GET(config.APIUsers, user.GetUsers)
 	g.GET(config.APIUsersID, user.GetUserByID)
@@ -37,7 +37,7 @@ func setUserController(g *gin.Engine, container container.Container) {
 }
 
 func setProductController(g *gin.Engine, container container.Container) {
-	product := controller.NewProducController(container)
+	product := controller.NewProductController(container)
 	g.GET(config.APIProducts, product.GetProducts)
 	g.POST(config.APIProducts, product.CreateProduct)
 }

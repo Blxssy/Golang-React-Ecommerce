@@ -11,17 +11,11 @@ type User struct {
 	gorm.Model
 
 	Username   string `json:"username"`
-	Email      string `json:"email" gorm:"unique"`
+	Email      string `json:"email"`
 	PassHash   string `json:"pass_hash"`
 	AvatarPath string `gorm:"default:https://api.multiavatar.com/"`
 	Phone      string `json:"phone"`
 }
-
-// func NewUser() *User{
-// 	return &User{
-
-// 	}
-// }
 
 func (u *User) Create(s storage.Storage) (*User, error) {
 	if err := s.Select("username", "pass_hash", "avatar_path", "email", "phone").Create(u).Error; err != nil {

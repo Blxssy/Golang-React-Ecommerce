@@ -119,6 +119,9 @@ const docTemplate = `{
                                 },
                                 "password": {
                                     "type": "string"
+                                },
+                                "username": {
+                                    "type": "string"
                                 }
                             }
                         }
@@ -145,7 +148,7 @@ const docTemplate = `{
             }
         },
         "/api/auth/user-info": {
-            "get": {
+            "post": {
                 "description": "Take access token and provide user info",
                 "consumes": [
                     "application/json"

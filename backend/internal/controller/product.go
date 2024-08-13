@@ -23,7 +23,7 @@ type productController struct {
 	container container.Container
 }
 
-func NewProducController(c container.Container) ProductController {
+func NewProductController(c container.Container) ProductController {
 	return &productController{
 		container: c,
 		service:   service.NewProductService(c),
