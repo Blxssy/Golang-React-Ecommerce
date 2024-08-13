@@ -67,6 +67,8 @@ paths:
               type: string
             password:
               type: string
+            username:
+              type: string
           type: object
       produces:
       - application/json
@@ -86,7 +88,7 @@ paths:
       tags:
       - Users
   /api/auth/user-info:
-    get:
+    post:
       consumes:
       - application/json
       description: Take access token and provide user info

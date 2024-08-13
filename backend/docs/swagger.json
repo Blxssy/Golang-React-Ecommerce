@@ -108,6 +108,9 @@
                                 },
                                 "password": {
                                     "type": "string"
+                                },
+                                "username": {
+                                    "type": "string"
                                 }
                             }
                         }
@@ -134,7 +137,7 @@
             }
         },
         "/api/auth/user-info": {
-            "get": {
+            "post": {
                 "description": "Take access token and provide user info",
                 "consumes": [
                     "application/json"
