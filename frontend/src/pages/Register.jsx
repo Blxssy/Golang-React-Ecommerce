@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import api from '../services/api';
 import { useNavigate } from 'react-router-dom';
-import './Register.css'; // Import the CSS file
+import './Register.css'; 
 
 const Register = () => {
+    const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState('');
@@ -11,7 +12,7 @@ const Register = () => {
 
     const handleRegister = async () => {
         try {
-            await api.post('/auth/register', { email, password });
+            await api.post('/auth/register', { username, email, password });
             setMessage('Registration successful');
             navigate('/');
         } catch (error) {
@@ -26,6 +27,16 @@ const Register = () => {
                 <p>Join to discover more</p>
             </div>
             <form onSubmit={(e) => { e.preventDefault(); handleRegister(); }}>
+            <div className="input-group">
+                    <label htmlFor="username"> </label>
+                    <input
+                        id="username"
+                        type="text"
+                        placeholder="Enter your username"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                    />
+                </div>
                 <div className="input-group">
                     <label htmlFor="email"> </label>
                     <input
