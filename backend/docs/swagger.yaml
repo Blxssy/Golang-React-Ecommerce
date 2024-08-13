@@ -104,6 +104,91 @@ paths:
       summary: Get user info
       tags:
       - Users
+  /api/products:
+    get:
+      description: Retrieves a list of all available products.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: List of products retrieved successfully
+          schema:
+            items:
+              properties:
+                description:
+                  type: string
+                id:
+                  type: integer
+                image:
+                  type: string
+                name:
+                  type: string
+                price:
+                  type: integer
+                slug:
+                  type: string
+              type: object
+            type: array
+        "400":
+          description: Products not found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get all products
+      tags:
+      - Products
+    post:
+      consumes:
+      - application/json
+      description: Creates a new product with the provided information.
+      parameters:
+      - description: Product data
+        in: body
+        name: product
+        required: true
+        schema:
+          properties:
+            description:
+              type: string
+            image:
+              type: string
+            name:
+              type: string
+            price:
+              type: integer
+            slug:
+              type: string
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Product created successfully
+          schema:
+            properties:
+              description:
+                type: string
+              id:
+                type: integer
+              image:
+                type: string
+              name:
+                type: string
+              price:
+                type: integer
+              slug:
+                type: string
+            type: object
+        "400":
+          description: Invalid product data / Cannot create product
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Create a new product
+      tags:
+      - Products
   /api/users:
     get:
       consumes:
