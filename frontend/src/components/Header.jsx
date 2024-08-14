@@ -1,8 +1,8 @@
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
-import {get} from "axios";
 import api from "../services/api";
 import '../styles/Header.css'
+// import axios from 'axios';
 
 const Header = () => {
     const [user, setUser] = useState()
@@ -30,7 +30,7 @@ const Header = () => {
         <div className="header">
             {user ? (
                 <div className="profile-section">
-                    <h2>{user.username}</h2>
+                    <h2>{user.username}</h2> 
                     <img
                         src={`${user.img}`}
                         alt="profile"
@@ -50,3 +50,4 @@ const Header = () => {
 };
 
 export default Header;
+

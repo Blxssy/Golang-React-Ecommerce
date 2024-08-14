@@ -5,7 +5,7 @@
 }
 
 .banner {
-	background: linear-gradient(135deg, #6e8efb, #a777e3);
+	background: linear-gradient(135deg, #6e8efb, #6ED4FB);
 	color: white;
 	padding: 40px;
 	border-radius: 8px;
@@ -37,7 +37,7 @@
 
 .product-grid {
 	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+	grid-template-columns: repeat(4, minmax(200px, 1fr));
 	gap: 20px;
 }
 
@@ -52,6 +52,20 @@
 	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 	text-align: center;
 	transition: transform 0.2s;
+	position: relative;
+}
+
+.product-name {
+	font-size: 1.2rem;
+	color: white;
+	opacity: 1; 
+	
+
+}
+
+.product-item:hover .product-name {
+	transition: opacity 0.3s ease;
+	opacity: 0; 
 }
 
 .product-description {

@@ -16,7 +16,7 @@ const Register = () => {
             setMessage('Registration successful');
             navigate('/');
         } catch (error) {
-            setMessage('Registration failed');
+            setMessage('Registration failed, user with this email already exists');
         }
     };
 
@@ -60,6 +60,7 @@ const Register = () => {
                 <button type="submit">Register</button>
                 <p>{message}</p>
             </form> 
+            <p> Already have an <p2 onClick={() => navigate('/login')}>account</p2>? </p>
         </div> 
     );
 };
