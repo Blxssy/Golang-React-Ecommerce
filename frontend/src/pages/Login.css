@@ -1,4 +1,4 @@
-.register {
+.login {
 	font-family: "Anek Devanagari", sans-serif;
 	color: #ffffff;
 	padding: 20px;
@@ -53,14 +53,3 @@ p {
     color: #946EFB
     ;
 }
-
-p2 {
-    font-family: "Anek Devanagari", sans-serif;
-    color: #946EFB;
-    cursor: pointer;
-}
-
-p2:hover {
-    color:#6E8EFB
-}
-
