@@ -4,6 +4,7 @@ import (
 	"errors"
 	"net/http"
 	"strconv"
+	"strings"
 
 	"github.com/Blxssy/Golang-React-Ecommerce/internal/utils/token"
 
@@ -165,20 +166,28 @@ func (u *userController) RefreshTokens(c *gin.Context) {
 
 // GetInfo godoc
 // @Summary Get user info
-// @Description Take access token and provide user info
+// @Description Take access token from header  and provide user info
 // @Tags Users
 // @Accept json
 // @Produce json
 // Success 200 {object} map[string]interface{} "Info provided successfully"
 // @Failure 400 {object} map[string]string "Invalid token"
-// @Router /api/auth/user-info [post]
+// @Router /api/auth/user-info [get]
 func (u *userController) GetInfo(c *gin.Context) {
-	accessToken, err := c.Cookie("access_token")
+	authHeader := c.GetHeader("Authorization")
 
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid token"})
+	if authHeader == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Authorization header is required"})
 		return
 	}
+
+	parts := strings.Split(authHeader, " ")
+	if len(parts) != 2 || parts[0] != "Bearer" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid Authorization header format"})
+		return
+	}
+
+	accessToken := parts[1]
 
 	userID, err := token.VerifyToken(accessToken)
 	if err != nil {

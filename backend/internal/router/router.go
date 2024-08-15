@@ -27,8 +27,9 @@ func setUserController(g *gin.Engine, container container.Container) {
 	user := controller.NewUserController(container)
 	g.POST(config.APIREGISTER, user.RegisterUser)
 	g.POST(config.APILOGIN, user.Login)
-	g.POST(config.APIUSERINFO, user.GetInfo)
+	g.GET(config.APIUSERINFO, user.GetInfo)
 	g.POST(config.APIREFRESH, user.RefreshTokens)
+
 	g.GET(config.APIUsers, user.GetUsers)
 	g.GET(config.APIUsersID, user.GetUserByID)
 	g.POST(config.APIUsers, user.CreateUser)
