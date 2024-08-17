@@ -2,11 +2,9 @@ package controller
 
 import (
 	"errors"
+	"github.com/Blxssy/Golang-React-Ecommerce/internal/utils/token"
 	"net/http"
 	"strconv"
-	"strings"
-
-	"github.com/Blxssy/Golang-React-Ecommerce/internal/utils/token"
 
 	"github.com/Blxssy/Golang-React-Ecommerce/internal/container"
 	"github.com/Blxssy/Golang-React-Ecommerce/internal/service"
@@ -61,7 +59,7 @@ func (u *userController) RegisterUser(c *gin.Context) {
 		return
 	}
 
-	user, accessToken, refreshToken, err := u.service.RegisterUser(input.Username, input.Email, input.Password)
+	_, accessToken, refreshToken, err := u.service.RegisterUser(input.Username, input.Email, input.Password)
 	if err != nil {
 		if errors.Is(err, gorm.ErrRegistered) {
 			c.JSON(http.StatusBadRequest, gin.H{"error": "User already exists"})
@@ -72,10 +70,10 @@ func (u *userController) RegisterUser(c *gin.Context) {
 	}
 
 	response := map[string]interface{}{
-		"user": gin.H{
-			"id":    user.ID,
-			"email": user.Email,
-		},
+		//"user": gin.H{
+		//	"id":    user.ID,
+		//	"email": user.Email,
+		//},
 		"access_token":  accessToken,
 		"refresh_token": refreshToken,
 	}
@@ -106,22 +104,16 @@ func (u *userController) Login(c *gin.Context) {
 		return
 	}
 
-	usr, accessToken, refreshToken, err := u.service.LoginUser(input.Email, input.Password)
+	_, accessToken, refreshToken, err := u.service.LoginUser(input.Email, input.Password)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	c.SetCookie("access_token", accessToken, 900, "/", "localhost", false, true)
-	c.SetCookie("refresh_token", refreshToken, 604800, "/", "localhost", false, true)
+	//c.SetCookie("access_token", accessToken, 900, "/", "localhost", false, true)
+	//c.SetCookie("refresh_token", refreshToken, 604800, "/", "localhost", false, true)
 
 	response := map[string]interface{}{
-		"user": gin.H{
-			"id":    usr.ID,
-			"email": usr.Email,
-			"img":   usr.AvatarPath,
-			"phone": usr.Phone,
-		},
 		"access_token":  accessToken,
 		"refresh_token": refreshToken,
 	}
@@ -174,20 +166,31 @@ func (u *userController) RefreshTokens(c *gin.Context) {
 // @Failure 400 {object} map[string]string "Invalid token"
 // @Router /api/auth/user-info [get]
 func (u *userController) GetInfo(c *gin.Context) {
-	authHeader := c.GetHeader("Authorization")
+	accessToken, err := c.Cookie("access_token")
 
-	if authHeader == "" {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Authorization header is required"})
+	if err != nil {
+		// Если кука не найдена
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Access token not found in cookies"})
 		return
 	}
 
-	parts := strings.Split(authHeader, " ")
-	if len(parts) != 2 || parts[0] != "Bearer" {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid Authorization header format"})
-		return
-	}
+	//uid, _ := token.ParseToken(accessToken)
+	//uid, _ := token.ParseToken(c.Request)
 
-	accessToken := parts[1]
+	//authHeader := c.GetHeader("Authorization")
+	//
+	//if authHeader == "" {
+	//	c.JSON(http.StatusBadRequest, gin.H{"error": "Authorization header is required"})
+	//	return
+	//}
+	//
+	//parts := strings.Split(authHeader, " ")
+	//if len(parts) != 2 || parts[0] != "Bearer" {
+	//	c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid Authorization header format"})
+	//	return
+	//}
+	//
+	//accessToken := parts[1]
 
 	userID, err := token.VerifyToken(accessToken)
 	if err != nil {

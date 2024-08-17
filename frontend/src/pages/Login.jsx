@@ -1,30 +1,37 @@
 import React, { useState } from 'react';
 import api from '../services/api';
 import { useNavigate } from 'react-router-dom';
-import './Login.css'; 
+import Cookies from 'js-cookie';
+import './Login.css';
 
 const Login = () => {
-	const [email, setEmail] = useState('');
-	const [password, setPassword] = useState('');
-	const [message, setMessage] = useState('');
-	const navigate = useNavigate();
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [message, setMessage] = useState('');
+    const navigate = useNavigate();
 
-	const handleLogin = async () => {
-		try {
-			await api.post('/auth/login', { email, password });
-			setMessage('Login successful');
-			navigate('/');
-			window.location.reload();
-		} catch (error) {
-			if (error.response && error.response.status === 401) {
-				setMessage('Invalid credentials');
-			} else {
-				setMessage('Login failed, try another email or password');
-			}
-		}
-	};
+    const handleLogin = async () => {
+        try {
+            const response = await api.post('/auth/login', { email, password });
+            const { access_token, refresh_token } = response.data;
 
-	return (
+            Cookies.set('access_token', access_token); // access_token хранится 7 дней
+            Cookies.set('refresh_token', refresh_token); // refresh_token хранится 30 дней
+
+            setMessage('Login successful');
+
+            navigate('/');
+            window.location.reload();
+        } catch (error) {
+            if (error.response && error.response.status === 401) {
+                setMessage('Invalid credentials');
+            } else {
+                setMessage('Login failed, try another email or password');
+            }
+        }
+    };
+
+    return (
         <div className="login">
             <div className="banner">
                 <h1>Welcome back</h1>
@@ -53,29 +60,9 @@ const Login = () => {
                 </div>
                 <button onClick={handleLogin}>Login</button>
                 <p>{message}</p>
-            </form> 
-        </div> 
+            </form>
+        </div>
     );
-
-	// return (
-	// 	<div>
-	// 		<h2>Login</h2>
-	// 		<input
-	// 			type="text"
-	// 			placeholder="Email"
-	// 			value={email}
-	// 			onChange={(e) => setEmail(e.target.value)}
-	// 		/>
-	// 		<input
-	// 			type="password"
-	// 			placeholder="Password"
-	// 			value={password}
-	// 			onChange={(e) => setPassword(e.target.value)}
-	// 		/>
-	// 		<button onClick={handleLogin}>Login</button>
-	// 		<p>{message}</p>
-	// 	</div>
-	// );
 };
 
 export default Login;

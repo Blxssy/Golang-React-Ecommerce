@@ -87,9 +87,7 @@ func ValidateToken(refreshToken string) bool {
 }
 
 func VerifyToken(tokenString string) (uint, error) {
-	// Разбор токена
 	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
-		// Проверка метода подписи
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
 		}
@@ -100,9 +98,7 @@ func VerifyToken(tokenString string) (uint, error) {
 		return 0, err
 	}
 
-	// Проверка допустимости токена
 	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
-		// Извлечение user_id
 		if userIDFloat, ok := claims["user_id"].(float64); ok {
 			userID := uint(userIDFloat)
 			return userID, nil
@@ -112,4 +108,48 @@ func VerifyToken(tokenString string) (uint, error) {
 	} else {
 		return 0, fmt.Errorf("invalid token")
 	}
+}
+
+//func ParseToken(r *http.Request) (uint, error) {
+//	authHeader := r.Header.Get("Authorization")
+//
+//	if authHeader == "" {
+//		return 0, errors.New("Empty token")
+//	}
+//
+//	parts := strings.Split(authHeader, " ")
+//	if len(parts) != 2 || parts[0] != "Bearer" {
+//		return 0, errors.New("Invalid Authorization header format")
+//	}
+//
+//	accessToken := parts[1]
+//
+//	userID, err := VerifyToken(accessToken)
+//	if err != nil {
+//		return 0, err
+//	}
+//
+//	return userID, nil
+//}
+
+func ParseToken(accessToken string) (uint, error) {
+	//authHeader := r.Header.Get("Authorization")
+	//
+	//if authHeader == "" {
+	//	return 0, errors.New("Empty token")
+	//}
+	//
+	//parts := strings.Split(authHeader, " ")
+	//if len(parts) != 2 || parts[0] != "Bearer" {
+	//	return 0, errors.New("Invalid Authorization header format")
+	//}
+	//
+	//accessToken := parts[1]
+
+	userID, err := VerifyToken(accessToken)
+	if err != nil {
+		return 0, err
+	}
+
+	return userID, nil
 }

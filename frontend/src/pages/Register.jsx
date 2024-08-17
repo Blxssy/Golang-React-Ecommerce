@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import api from '../services/api';
 import { useNavigate } from 'react-router-dom';
-import './Register.css'; 
+import './Register.css';
+import Cookies from "js-cookie";
 
 const Register = () => {
     const [username, setUsername] = useState('');
@@ -12,11 +13,22 @@ const Register = () => {
 
     const handleRegister = async () => {
         try {
-            await api.post('/auth/register', { username, email, password });
-            setMessage('Registration successful');
+            const response = await api.post('/auth/register', { username, email, password });
+            const { access_token, refresh_token } = response.data;
+
+            Cookies.set('access_token', access_token);
+            Cookies.set('refresh_token', refresh_token);
+
+            setMessage('Register successful');
+
             navigate('/');
+            window.location.reload();
         } catch (error) {
-            setMessage('Registration failed, user with this email already exists');
+            if (error.response && error.response.status === 401) {
+                setMessage('Invalid credentials');
+            } else {
+                setMessage('Login failed, try another email or password');
+            }
         }
     };
 

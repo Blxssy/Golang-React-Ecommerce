@@ -2,6 +2,7 @@ import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import api from "../services/api";
 import '../styles/Header.css'
+import Cookies from "js-cookie";
 // import axios from 'axios';
 
 const Header = () => {
@@ -22,8 +23,8 @@ const Header = () => {
 
     const handleLogout = () => {
         setUser(null);
-        document.cookie = "accessToken=; max-age=-1; path=/;";
-        document.cookie = "refreshToken=; max-age=-1; path=/;";
+        Cookies.remove("access_token")
+        Cookies.remove("refresh_token")
     };
 
     return (
