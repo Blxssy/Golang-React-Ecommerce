@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import api from '../services/api';
 import { useNavigate } from 'react-router-dom';
-import './Register.css';
+import '/Users/Amogus/Golang-React-Ecommerce/frontend/src/styles/Register.css';
 import Cookies from "js-cookie";
 
 const Register = () => {

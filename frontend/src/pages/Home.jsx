@@ -1,5 +1,5 @@
 import React from 'react';
-import './Home.css'
+import '/Users/Amogus/Golang-React-Ecommerce/frontend/src/styles/Home.css'
 
 const Home = () => {
 	return (
