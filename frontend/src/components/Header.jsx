@@ -37,7 +37,9 @@ const Header = () => {
                         onClick={() => navigate('/profile')}
                         className="profile-avatar"
                     />
+                        <div className="auth-buttons">
                     <button onClick={handleLogout}>Logout</button>
+                        </div>
                 </div>
             ) : (
                 <div className="auth-buttons">
