@@ -50,17 +50,21 @@ button {
 
 p {
     margin-top: 20px;
-    color: #946EFB
+    color: #363636
     ;
 }
 
 p2 {
     font-family: "Anek Devanagari", sans-serif;
-    color: #946EFB;
+    color: #363636;
     cursor: pointer;
 }
 
 p2:hover {
-    color:#6E8EFB
+    color:#946EFB
 }
 
+span {
+    font-family: "Anek Devanagari", sans-serif;
+    color: #363636;
+}

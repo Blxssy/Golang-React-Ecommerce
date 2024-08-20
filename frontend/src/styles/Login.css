@@ -6,7 +6,7 @@
 }
 
 .banner {
-	background: linear-gradient(135deg, #6e8efb, #6ED4FB);
+	background: linear-gradient(135deg, #363636, #636363);
 	color: 636363;
 	padding: 40px;
 	border-radius: 8px;
@@ -43,13 +43,13 @@ input {
 
 button {
     font-family: "Anek Devanagari", sans-serif;
-    background: #6E8EFB;
+    background: #363636;
     color: white;
     padding: 10px 20px;
 }
 
 p {
     margin-top: 20px;
-    color: #946EFB
+    color: #fff
     ;
 }

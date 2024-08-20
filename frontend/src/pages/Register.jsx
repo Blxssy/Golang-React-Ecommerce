@@ -70,9 +70,9 @@ const Register = () => {
                     />
                 </div>
                 <button type="submit">Register</button>
-                <p>{message}</p>
+                <span>{message}</span>
             </form> 
-            <p> Already have an <p2 onClick={() => navigate('/login')}>account</p2>? </p>
+            <span>Already have an account? <p2 onClick={() => navigate('/login')}> (Login) </p2></span>
         </div> 
     );
 };

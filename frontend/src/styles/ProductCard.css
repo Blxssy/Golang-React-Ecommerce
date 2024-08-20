@@ -33,15 +33,17 @@
 	flex-direction: column;
 	align-items: center;
 	justify-content: space-between;
-	height: 200px; /* Уменьшили высоту карточек */
+	height: 400px; /* Уменьшили высоту карточек */
+	width: 300px;
 }
   
 .product-item img {
-	width: 180px; /* Уменьшили размер изображений */
-	height: 180px;
+	width: 280px; /* Уменьшили размер изображений */
+	height: 280px;
 	object-fit: cover;
 	display: block;
 	margin-left: 50;
+	margin-top: 10px; 
 	border-radius: 10px; /* Закруглили углы у изображений */
 	flex-shrink: 0;
 }
