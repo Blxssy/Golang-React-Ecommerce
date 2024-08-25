@@ -12,6 +12,7 @@ func Init(g *gin.Engine, container container.Container) {
 	setCORSConfig(g)
 	setUserController(g, container)
 	setProductController(g, container)
+	setCartController(g, container)
 }
 
 func setCORSConfig(g *gin.Engine) {
@@ -41,4 +42,13 @@ func setProductController(g *gin.Engine, container container.Container) {
 	product := controller.NewProductController(container)
 	g.GET(config.APIProducts, product.GetProducts)
 	g.POST(config.APIProducts, product.CreateProduct)
+}
+
+func setCartController(g *gin.Engine, container container.Container) {
+	cart := controller.NewCartController(container)
+	g.POST(config.APICARTITEMS, cart.AddItem)
+	g.DELETE(config.APICARTITEMS, cart.RemoveItem)
+	g.PUT(config.APICARTITEMS, cart.UpdateItemQuantity)
+	g.GET(config.APICART, cart.GetCart)
+	g.DELETE(config.APICART, cart.ClearCart)
 }
