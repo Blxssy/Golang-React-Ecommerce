@@ -15,13 +15,16 @@ type Product struct {
 	Description string `json:"description"`
 	Slug        string `json:"slug"`
 	Image       string `json:"image"`
+
+	CategoryID uint     `json:"category_id"`
+	Category   Category `json:"category"`
 }
 
 type Category struct {
 	gorm.Model
 
 	Name     string
-	Products []Product `gorm:"many2many:category_products;" json:"products"`
+	Products []Product `json:"products" gorm:"foreignKey:CategoryID"`
 }
 
 func (p *Product) Create(s storage.Storage) (*Product, error) {

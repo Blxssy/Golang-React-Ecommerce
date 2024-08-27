@@ -6,6 +6,7 @@ import (
 	logger2 "github.com/Blxssy/Golang-React-Ecommerce/internal/logger"
 	"github.com/Blxssy/Golang-React-Ecommerce/internal/migration"
 	"github.com/Blxssy/Golang-React-Ecommerce/internal/storage"
+	"github.com/gin-gonic/gin"
 	"log/slog"
 )
 
@@ -18,6 +19,19 @@ func PrepareForServiceTest() container.Container {
 	migration.InitData(container)
 
 	return container
+}
+
+func PrepareForControllerTest() (*gin.Engine, container.Container) {
+	g := gin.Default()
+
+	conf := createConfig(false)
+	logger := initTestLogger()
+	container := initContainer(conf, logger)
+
+	migration.CreateDatabase(container)
+	migration.InitData(container)
+
+	return g, container
 }
 
 func createConfig(isSecurity bool) *config.Config {

@@ -15,13 +15,30 @@ type User struct {
 	PassHash   string `json:"pass_hash"`
 	AvatarPath string `gorm:"default:https://api.multiavatar.com/"`
 	Phone      string `json:"phone"`
+
+	CartID uint `json:"cart_id"`
+	//Cart   Cart `json:"cart"`
 }
 
 func (u *User) Create(s storage.Storage) (*User, error) {
-	if err := s.Select("username", "pass_hash", "avatar_path", "email", "phone").Create(u).Error; err != nil {
+	if err := s.Select("username", "pass_hash", "avatar_path", "email", "phone", "cart_id").Create(u).Error; err != nil {
 		return nil, err
 	}
 	return u, nil
+}
+
+func (u *User) AfterCreate(tx *gorm.DB) (err error) {
+	cart := Cart{UserID: u.ID}
+	if err := tx.Create(&cart).Error; err != nil {
+		return err
+	}
+
+	u.CartID = u.ID
+
+	if err := tx.Save(u).Error; err != nil {
+		return err
+	}
+	return nil
 }
 
 func NewUserWithPlainPassword(name string, email string, password string) *User {

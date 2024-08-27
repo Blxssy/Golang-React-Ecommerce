@@ -15,3 +15,8 @@ const (
 	APIProducts   = API + "/products"
 	APIProductsID = APIProducts + "/:id"
 )
+
+const (
+	APICART      = API + "/cart"
+	APICARTITEMS = APICART + "/items"
+)

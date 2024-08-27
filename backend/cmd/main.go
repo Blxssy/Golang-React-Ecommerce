@@ -44,6 +44,7 @@ func main() {
 	ctr := container.NewContainer(mainStorage, cfg, l, envLocal)
 
 	migration.CreateDatabase(ctr)
+	migration.InitData(ctr)
 
 	router.Init(g, ctr)
 

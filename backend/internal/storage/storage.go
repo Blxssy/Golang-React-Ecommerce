@@ -125,22 +125,27 @@ func (s *storage) AutoMigrate(value interface{}) error {
 }
 
 func (s *storage) Transaction(fc func(tx Storage) error) (err error) {
-	panicked := true
 	tx := s.db.Begin()
+	if tx.Error != nil {
+		return tx.Error
+	}
+
+	// Отмена транзакции в случае ошибки или паники
 	defer func() {
-		if panicked || err != nil {
+		if r := recover(); r != nil {
 			tx.Rollback()
+			panic(r) // Повторное выбрасывание паники после отката
+		} else if err != nil {
+			tx.Rollback()
+		} else {
+			err = tx.Commit().Error
 		}
 	}()
 
-	txrep := &storage{}
-	txrep.db = tx
-	err = fc(txrep)
-
-	if err == nil {
-		err = tx.Commit().Error
+	// Выполнение функции транзакции
+	if err = fc(&storage{db: tx}); err != nil {
+		return err
 	}
 
-	panicked = false
-	return
+	return nil
 }
