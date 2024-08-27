@@ -169,7 +169,6 @@ func (u *userController) GetInfo(c *gin.Context) {
 	accessToken, err := c.Cookie("access_token")
 
 	if err != nil {
-		// Если кука не найдена
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "Access token not found in cookies"})
 		return
 	}
