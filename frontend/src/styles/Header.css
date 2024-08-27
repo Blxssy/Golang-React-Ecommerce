@@ -1,11 +1,10 @@
-/* src/styles/Header.css */
 .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 10px 20px;
-    background-color: #f8f9fa;
-    border-bottom: 1px solid #ddd;
+    background-color: white;
+    /* border-bottom: 1px solid #ddd; */
 }
 
 .auth-buttons {
@@ -14,16 +13,19 @@
 }
 
 .auth-buttons button {
-    padding: 8px 16px;
-    border: none;
-    background-color: #6E8EFB;
-    color: white;
-    cursor: pointer;
-    border-radius: 4px;
+    padding: 10px 20px;
+	background-color: #363636;
+	color: white;
+	border: none;
+	border-radius: 20px;
+	font-size: 16px;
+	text-decoration: none;
+	cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
 }
 
 .auth-buttons button:hover {
-    background-color: #946EFB;
+    background-color: #946efb;
 }
 
 .profile-section {
@@ -41,12 +43,15 @@
 }
 
 button {
-    padding: 8px 16px;
-    border: none;
-    background-color: #6E8EFB;
-    color: white;
-    cursor: pointer;
-    border-radius: 4px;
+    padding: 10px 20px;
+	background-color: #363636;
+	color: white;
+	border: none;
+	border-radius: 20px;
+	font-size: 16px;
+	text-decoration: none;
+	cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
 }
 
 button:hover {

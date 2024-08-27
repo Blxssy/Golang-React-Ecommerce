@@ -1,0 +1,35 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: Arial, sans-serif;
+}
+  
+.scrollable-background {
+    background-image: url('/Users/Amogus/Golang-React-Ecommerce/frontend/images/krossovk.png'); /* Замените на путь к вашему изображению */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    height: 200vh; /* Высота больше экрана для прокрутки */
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+}
+  
+.content {
+    margin-bottom: 50px; /* Расстояние от нижней части экрана */
+}
+  
+.scroll-button {
+    padding: 15px 30px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+  
+.scroll-button:hover {
+    background-color: #45a049;
+}

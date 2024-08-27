@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import api from '../services/api';
 import { useNavigate } from 'react-router-dom';
-import './Register.css';
+import '/Users/Amogus/Golang-React-Ecommerce/frontend/src/styles/Register.css';
 import Cookies from "js-cookie";
 
 const Register = () => {
@@ -70,9 +70,9 @@ const Register = () => {
                     />
                 </div>
                 <button type="submit">Register</button>
-                <p>{message}</p>
+                <span>{message}</span>
             </form> 
-            <p> Already have an <p2 onClick={() => navigate('/login')}>account</p2>? </p>
+            <span>Already have an account? <p2 onClick={() => navigate('/login')}> (Login) </p2></span>
         </div> 
     );
 };
