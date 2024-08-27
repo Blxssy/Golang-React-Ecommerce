@@ -8,14 +8,14 @@ import (
 type Cart struct {
 	gorm.Model
 
-	UserID uint       `json:"user_id" gorm:"foreignKey:UserID"`
+	UserID uint       `json:"user_id"`
 	Items  []CartItem `json:"items"`
 }
 
 type CartItem struct {
 	gorm.Model
 
-	CartID    uint `json:"cart_id" gorm:"foreignKey:CartID"`
+	CartID    uint `json:"cart_id"`
 	ProductId uint `json:"product_id"`
 	Quantity  int  `json:"quantity"`
 }

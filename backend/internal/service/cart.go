@@ -4,7 +4,6 @@ import (
 	"github.com/Blxssy/Golang-React-Ecommerce/internal/container"
 	"github.com/Blxssy/Golang-React-Ecommerce/internal/models"
 	"github.com/Blxssy/Golang-React-Ecommerce/internal/storage"
-	"log/slog"
 )
 
 type CartService interface {
@@ -26,14 +25,16 @@ func NewCartService(container container.Container) CartService {
 }
 
 func (s *cartService) AddItem(userID uint, productID uint, quantity int) error {
-	logger := s.container.GetLogger()
+	//logger := s.container.GetLogger()
 
 	// Загрузка корзины вместе с элементами
 	var cart models.Cart
 	if err := s.container.GetRepository().Preload("Items").First(&cart, "user_id = ?", userID).Error; err != nil {
 		return err
 	}
-	logger.Info("cartInfo", slog.Any("cart", cart))
+
+	//logger.Info("cartInfo", slog.Any("cart", cart))
+
 	var cartItem *models.CartItem
 	for i := range cart.Items {
 		if cart.Items[i].ProductId == productID {
@@ -67,7 +68,7 @@ func (s *cartService) AddItem(userID uint, productID uint, quantity int) error {
 		return err
 	}
 
-	logger.Info("Item added to cart", slog.Any("cart", cart))
+	//logger.Info("Item added to cart", slog.Any("cart", cart))
 	return nil
 }
 
