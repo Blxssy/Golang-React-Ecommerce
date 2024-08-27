@@ -22,7 +22,7 @@
 }
   
 .product-item {
-	font-size: 1rem; /* Уменьшили размер текста */
+	font-size: 1rem; 
 	background: #ffffff;
 	border-radius: 8px;
 	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -33,18 +33,24 @@
 	flex-direction: column;
 	align-items: center;
 	justify-content: space-between;
-	height: 400px; /* Уменьшили высоту карточек */
+	height: 400px; 
 	width: 300px;
+}
+
+.product-item:hover {
+	box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
+	cursor: pointer; 
+	text-decoration: underline; 
 }
   
 .product-item img {
-	width: 280px; /* Уменьшили размер изображений */
+	width: 280px; 
 	height: 280px;
 	object-fit: cover;
 	display: block;
 	margin-left: 50;
 	margin-top: 10px; 
-	border-radius: 10px; /* Закруглили углы у изображений */
+	border-radius: 10px; 
 	flex-shrink: 0;
 }
   
