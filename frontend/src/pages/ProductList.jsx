@@ -22,12 +22,12 @@ const ProductList = () => {
     <div className="products-container">
       <div className="product-grid">
         {products.map(product => (
-            <div className="product-item">
+            <div className="product-item"
+            onClick={() => handleProductClick(product)}
+            >
               <img 
                 src={product.image} 
                 alt={product.name} 
-                onClick={() => handleProductClick(product)} 
-                style={{ cursor: 'pointer' }} 
               />
               <h3>{product.name}</h3>
               <p>Price: {product.price} $</p>
