@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import '/Users/Amogus/Golang-React-Ecommerce/frontend/src/styles/Home.css';
+import '../styles/Home.css';
+import '../styles/Сarousel.css'
 import api from "../services/api";
 
 const Home = () => {
   const [user, setUser] = useState(null);
+  const [products, setProducts] = useState([]);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -14,8 +16,15 @@ const Home = () => {
         console.log('Not authenticated');
       }
     };
-    fetchUser();
+    fetchUser(); 
   }, []);
+  
+  useEffect(() => {
+    fetch('http://localhost:3001/api/products')
+      .then(response => response.json())
+      .then(data => setProducts(data))
+      .catch(error => console.error('Error loading products:', error));
+  }, []); 
 
   const scrollToMiddle = () => {
     const middle = document.documentElement.scrollHeight / 2;
@@ -38,8 +47,25 @@ const Home = () => {
 		<h1 className="h1">
 			Welcome to our store, {user ? user.username : "Guest"}!
 		</h1>
+    <div className="carousel-container">
+      <div className="carousel">
+        {products.length > 0 ? (
+          products.map((product, index) => (
+            <div key={index} className="carousel-item">
+              <h3>{product.name}</h3>
+              <img
+                src={product.image} 
+                alt={product.name} 
+              />
+            </div>
+          ))
+        ) : (
+          <p>Loading products...</p>
+        )}
+      </div>
+    </div>
 		<button className="scroll-button" onClick={scrollToMiddle}>
-			What's next? ↓
+			Want more? ↓
 		</button>
 		</div>
 		

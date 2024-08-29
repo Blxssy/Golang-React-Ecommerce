@@ -1,29 +1,6 @@
-// import React from 'react';
-// import { useLocation } from 'react-router-dom';
-
-// const ProductDetailPage = () => {
-//   const location = useLocation();
-//   const { product } = location.state || {}; 
-
-//   if (!product) {
-//     return <div>Product not found</div>;
-//   }
-
-//   return (
-//     <div>
-//       <h1>{product.name}</h1>
-//       <img src={product.image} alt={product.name} />
-//       <p>{product.description}</p>
-//       <p>Price: {product.price} $</p>
-//     </div>
-//   );
-// };
-
-// export default ProductDetailPage;
-
 import React from 'react';
 import { useLocation } from 'react-router-dom';
-import '/Users/Amogus/Golang-React-Ecommerce/frontend/src/styles/ProductDetailPage.css';
+import '../styles/ProductDetailPage.css';
 
 const ProductDetailPage = () => {
   const location = useLocation();
