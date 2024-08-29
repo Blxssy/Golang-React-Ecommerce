@@ -148,8 +148,8 @@ const docTemplate = `{
             }
         },
         "/api/auth/user-info": {
-            "post": {
-                "description": "Take access token and provide user info",
+            "get": {
+                "description": "Take access token from header  and provide user info",
                 "consumes": [
                     "application/json"
                 ],
@@ -173,6 +173,103 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/cart": {
+            "get": {
+                "description": "Retrieves the shopping cart for a specific user using the access token stored in cookies.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "cart"
+                ],
+                "summary": "Get user cart",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Access Token",
+                        "name": "access_token",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{\"uid\": \"string\", \"userCart\": \"object\"}",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "{\"error\": \"string\"}",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/cart/items": {
+            "post": {
+                "description": "Adds a product to the user's shopping cart using the access token stored in cookies.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "cart"
+                ],
+                "summary": "Add item to cart",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Access Token",
+                        "name": "access_token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "Product ID and Quantity",
+                        "name": "input",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "product_id": {
+                                    "type": "integer"
+                                },
+                                "quantity": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{\"message\": \"Product successfully added to cart\"}",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "{\"error\": \"string\"}",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
         "/api/products": {
             "get": {
                 "description": "Retrieves a list of all available products.",
@@ -191,11 +288,11 @@ const docTemplate = `{
                             "items": {
                                 "type": "object",
                                 "properties": {
+                                    "ID": {
+                                        "type": "integer"
+                                    },
                                     "description": {
                                         "type": "string"
-                                    },
-                                    "id": {
-                                        "type": "integer"
                                     },
                                     "image": {
                                         "type": "string"
@@ -270,11 +367,11 @@ const docTemplate = `{
                         "schema": {
                             "type": "object",
                             "properties": {
+                                "ID": {
+                                    "type": "integer"
+                                },
                                 "description": {
                                     "type": "string"
-                                },
-                                "id": {
-                                    "type": "integer"
                                 },
                                 "image": {
                                     "type": "string"

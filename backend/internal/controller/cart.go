@@ -35,7 +35,7 @@ func NewCartController(container container.Container) CartController {
 // @Tags cart
 // @Accept  json
 // @Produce  json
-// @Param access_token cookie string true "Access Token"
+// @Param access_token header string true "Access Token"
 // @Success 200 {object} map[string]interface{} "{"uid": "string", "userCart": "object"}"
 // @Failure 400 {object} map[string]interface{} "{"error": "string"}"
 // @Router /api/cart [get]
@@ -70,8 +70,8 @@ func (cart *cartController) GetCart(c *gin.Context) {
 // @Tags cart
 // @Accept  json
 // @Produce  json
-// @Param access_token cookie string true "Access Token"
-// @Param input body struct{ProductID uint `json:"product_id"`; Quantity int `json:"quantity"`} true "Product ID and Quantity"
+// @Param access_token header string true "Access Token"
+// @Param input body object{product_id=int,quantity=int} true "Product ID and Quantity"
 // @Success 200 {object} map[string]interface{} "{"message": "Product successfully added to cart"}"
 // @Failure 400 {object} map[string]interface{} "{"error": "string"}"
 // @Router /api/cart/items [post]

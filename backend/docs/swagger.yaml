@@ -88,10 +88,10 @@ paths:
       tags:
       - Users
   /api/auth/user-info:
-    post:
+    get:
       consumes:
       - application/json
-      description: Take access token and provide user info
+      description: Take access token from header  and provide user info
       produces:
       - application/json
       responses:
@@ -104,6 +104,73 @@ paths:
       summary: Get user info
       tags:
       - Users
+  /api/cart:
+    get:
+      consumes:
+      - application/json
+      description: Retrieves the shopping cart for a specific user using the access
+        token stored in cookies.
+      parameters:
+      - description: Access Token
+        in: header
+        name: access_token
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"uid": "string", "userCart": "object"}'
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: '{"error": "string"}'
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get user cart
+      tags:
+      - cart
+  /api/cart/items:
+    post:
+      consumes:
+      - application/json
+      description: Adds a product to the user's shopping cart using the access token
+        stored in cookies.
+      parameters:
+      - description: Access Token
+        in: header
+        name: access_token
+        required: true
+        type: string
+      - description: Product ID and Quantity
+        in: body
+        name: input
+        required: true
+        schema:
+          properties:
+            product_id:
+              type: integer
+            quantity:
+              type: integer
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"message": "Product successfully added to cart"}'
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: '{"error": "string"}'
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Add item to cart
+      tags:
+      - cart
   /api/products:
     get:
       description: Retrieves a list of all available products.
@@ -115,10 +182,10 @@ paths:
           schema:
             items:
               properties:
+                ID:
+                  type: integer
                 description:
                   type: string
-                id:
-                  type: integer
                 image:
                   type: string
                 name:
@@ -167,10 +234,10 @@ paths:
           description: Product created successfully
           schema:
             properties:
+              ID:
+                type: integer
               description:
                 type: string
-              id:
-                type: integer
               image:
                 type: string
               name:
