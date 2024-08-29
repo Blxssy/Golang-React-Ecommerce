@@ -28,6 +28,53 @@ func NewCartController(container container.Container) CartController {
 	}
 }
 
+// GetCart take access_token from cookies and returns user's cart
+// GetCart godoc
+// @Summary Get user cart
+// @Description Retrieves the shopping cart for a specific user using the access token stored in cookies.
+// @Tags cart
+// @Accept  json
+// @Produce  json
+// @Param access_token cookie string true "Access Token"
+// @Success 200 {object} map[string]interface{} "{"uid": "string", "userCart": "object"}"
+// @Failure 400 {object} map[string]interface{} "{"error": "string"}"
+// @Router /api/cart [get]
+func (cart *cartController) GetCart(c *gin.Context) {
+	accessToken, err := c.Cookie("access_token")
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	uid, err := token.ParseToken(accessToken)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	userCart, err := cart.service.GetCart(uid)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"uid":      uid,
+		"userCart": userCart,
+	})
+}
+
+// AddItem godoc
+// @Summary Add item to cart
+// @Description Adds a product to the user's shopping cart using the access token stored in cookies.
+// @Tags cart
+// @Accept  json
+// @Produce  json
+// @Param access_token cookie string true "Access Token"
+// @Param input body struct{ProductID uint `json:"product_id"`; Quantity int `json:"quantity"`} true "Product ID and Quantity"
+// @Success 200 {object} map[string]interface{} "{"message": "Product successfully added to cart"}"
+// @Failure 400 {object} map[string]interface{} "{"error": "string"}"
+// @Router /api/cart/items [post]
 func (cart *cartController) AddItem(c *gin.Context) {
 	accessToken, err := c.Cookie("access_token")
 	if err != nil {
@@ -67,31 +114,6 @@ func (cart *cartController) UpdateItemQuantity(c *gin.Context) {
 
 }
 
-// GetCart take access_token from cookies and returns user's cart
-func (cart *cartController) GetCart(c *gin.Context) {
-	accessToken, err := c.Cookie("access_token")
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-
-	uid, err := token.ParseToken(accessToken)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-
-	userCart, err := cart.service.GetCart(uid)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-
-	c.JSON(http.StatusOK, gin.H{
-		"uid":      uid,
-		"userCart": userCart,
-	})
-}
 func (cart *cartController) ClearCart(c *gin.Context) {
 
 }
