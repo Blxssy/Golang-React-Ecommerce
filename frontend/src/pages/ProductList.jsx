@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-// import '/Users/Amogus/Golang-React-Ecommerce/frontend/src/styles/Home.css'
-import '/Users/Amogus/Golang-React-Ecommerce/frontend/src/styles/ProductCard.css'
+import '../styles/ProductCard.css'
 
 const ProductList = () => {
   const [products, setProducts] = useState([]);

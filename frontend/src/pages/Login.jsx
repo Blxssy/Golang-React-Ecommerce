@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import api from '../services/api';
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
-import '/Users/Amogus/Golang-React-Ecommerce/frontend/src/styles/Login.css';
+import '../styles/Login.css';
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -59,7 +59,7 @@ const Login = () => {
                     />
                 </div>
                 <button onClick={handleLogin}>Login</button>
-                <p>{message}</p>
+                <p2>{message}</p2>
             </form>
         </div>
     );
