@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"log/slog"
 	"net/http"
 
 	"github.com/Blxssy/Golang-React-Ecommerce/internal/container"
@@ -59,15 +58,15 @@ func (pc *productController) GetProducts(c *gin.Context) {
 // @Router /api/products [post]
 func (pc *productController) CreateProduct(c *gin.Context) {
 	var product models.Product
-	logger := pc.container.GetLogger()
 	if err := c.ShouldBindJSON(&product); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid product data"})
 		return
 	}
-	logger.Info("productS", slog.Any("product", product))
+
 	if err := pc.service.CreateProduct(&product); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "cannot create product"})
 		return
 	}
+
 	c.JSON(http.StatusOK, product)
 }

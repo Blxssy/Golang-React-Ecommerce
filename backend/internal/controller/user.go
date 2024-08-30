@@ -231,6 +231,7 @@ func (u *userController) GetUsers(c *gin.Context) {
 }
 
 func (u *userController) GetUserByID(c *gin.Context) {
+
 }
 
 func (u *userController) CreateUser(c *gin.Context) {

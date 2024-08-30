@@ -25,7 +25,7 @@ func NewProductService(c container.Container) ProductService {
 
 func (s *productService) GetAllProducts() (*[]models.Product, error) {
 	var products []models.Product
-	if err := s.container.GetRepository().Find(&products).Error; err != nil {
+	if err := s.container.GetRepository().Preload("Category").Find(&products).Error; err != nil {
 		return nil, err
 	}
 	return &products, nil
