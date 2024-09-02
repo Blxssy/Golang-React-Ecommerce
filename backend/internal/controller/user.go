@@ -173,24 +173,6 @@ func (u *userController) GetInfo(c *gin.Context) {
 		return
 	}
 
-	//uid, _ := token.ParseToken(accessToken)
-	//uid, _ := token.ParseToken(c.Request)
-
-	//authHeader := c.GetHeader("Authorization")
-	//
-	//if authHeader == "" {
-	//	c.JSON(http.StatusBadRequest, gin.H{"error": "Authorization header is required"})
-	//	return
-	//}
-	//
-	//parts := strings.Split(authHeader, " ")
-	//if len(parts) != 2 || parts[0] != "Bearer" {
-	//	c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid Authorization header format"})
-	//	return
-	//}
-	//
-	//accessToken := parts[1]
-
 	userID, err := token.VerifyToken(accessToken)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -202,6 +184,8 @@ func (u *userController) GetInfo(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+
+	//cart :=
 
 	c.JSON(http.StatusOK, gin.H{
 		"username": user.Username,
@@ -231,7 +215,19 @@ func (u *userController) GetUsers(c *gin.Context) {
 }
 
 func (u *userController) GetUserByID(c *gin.Context) {
+	uid := c.Param("id")
 
+	user, err := u.service.FindById(uid)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Cannot load users"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"username": user.Username,
+		"email":    user.Email,
+		"img":      user.AvatarPath,
+	})
 }
 
 func (u *userController) CreateUser(c *gin.Context) {

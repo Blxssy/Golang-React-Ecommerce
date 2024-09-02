@@ -1,6 +1,7 @@
 package test
 
 import (
+	"encoding/json"
 	"github.com/Blxssy/Golang-React-Ecommerce/internal/config"
 	"github.com/Blxssy/Golang-React-Ecommerce/internal/container"
 	logger2 "github.com/Blxssy/Golang-React-Ecommerce/internal/logger"
@@ -8,10 +9,13 @@ import (
 	"github.com/Blxssy/Golang-React-Ecommerce/internal/storage"
 	"github.com/gin-gonic/gin"
 	"log/slog"
+	"net/http"
+	"net/http/httptest"
+	"strings"
 )
 
 func PrepareForServiceTest() container.Container {
-	conf := createConfig(false)
+	conf := createConfig()
 	logger := initTestLogger()
 	container := initContainer(conf, logger)
 
@@ -24,7 +28,7 @@ func PrepareForServiceTest() container.Container {
 func PrepareForControllerTest() (*gin.Engine, container.Container) {
 	g := gin.Default()
 
-	conf := createConfig(false)
+	conf := createConfig()
 	logger := initTestLogger()
 	container := initContainer(conf, logger)
 
@@ -34,7 +38,7 @@ func PrepareForControllerTest() (*gin.Engine, container.Container) {
 	return g, container
 }
 
-func createConfig(isSecurity bool) *config.Config {
+func createConfig() *config.Config {
 	conf := &config.Config{}
 	conf.Database.Dialect = "postgres"
 	conf.Database.Host = "localhost"
@@ -55,4 +59,16 @@ func initContainer(conf *config.Config, logger *slog.Logger) container.Container
 func initTestLogger() *slog.Logger {
 	logger := logger2.SetupLogger("local")
 	return logger
+}
+
+func NewJSONRequest(method string, target string, param interface{}) *http.Request {
+	req := httptest.NewRequest(method, target, strings.NewReader(ConvertToString(param)))
+	req.Header.Add("Content-Type", "application/json")
+	req.Header.Add("Accept", "application/json")
+	return req
+}
+
+func ConvertToString(model interface{}) string {
+	bytes, _ := json.Marshal(model)
+	return string(bytes)
 }

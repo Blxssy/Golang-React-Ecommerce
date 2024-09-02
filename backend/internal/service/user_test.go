@@ -18,9 +18,9 @@ func TestUserService_RegisterUser(t *testing.T) {
 	service := NewUserService(container)
 	res, token, refresh, err := service.RegisterUser("name", "register@test.com", "test")
 
-	log.Info("REgisterUser", slog.Any("User", res))
-	log.Info("REgisterUser", slog.String("Access_token", token))
-	log.Info("REgisterUser", slog.String("Refresh_token", refresh))
+	log.Info("RegisterUser", slog.Any("User", res))
+	log.Info("RegisterUser", slog.String("Access_token", token))
+	log.Info("RegisterUser", slog.String("Refresh_token", refresh))
 
 	assert.NoError(t, err)
 	assert.NotEmpty(t, token)
