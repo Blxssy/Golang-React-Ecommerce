@@ -1,7 +1,6 @@
 package service
 
 import (
-	"log/slog"
 	"strconv"
 	"testing"
 
@@ -13,14 +12,9 @@ import (
 
 func TestUserService_RegisterUser(t *testing.T) {
 	container := test.PrepareForServiceTest()
-	log := container.GetLogger()
 
 	service := NewUserService(container)
 	res, token, refresh, err := service.RegisterUser("name", "register@test.com", "test")
-
-	log.Info("RegisterUser", slog.Any("User", res))
-	log.Info("RegisterUser", slog.String("Access_token", token))
-	log.Info("RegisterUser", slog.String("Refresh_token", refresh))
 
 	assert.NoError(t, err)
 	assert.NotEmpty(t, token)

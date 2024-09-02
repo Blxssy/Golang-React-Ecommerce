@@ -123,8 +123,8 @@ func createUserForRegister() *RegisterUserForm {
 	}
 }
 
-func createUserForLogin() *RegisterUserForm {
-	return &RegisterUserForm{
+func createUserForLogin() RegisterUserForm {
+	return RegisterUserForm{
 		Email:    "test@test.com",
 		Password: "test",
 	}
