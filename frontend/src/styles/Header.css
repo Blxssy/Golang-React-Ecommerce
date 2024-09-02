@@ -10,6 +10,7 @@
 .auth-buttons {
     display: flex;
     gap: 10px;
+    /* margin-left: auto;  */
 }
 
 .auth-buttons button {
@@ -22,6 +23,44 @@
 	text-decoration: none;
 	cursor: pointer;
     transition: background-color 0.3s ease-in-out;
+}
+
+.auth-buttons button-home {
+    position: absolute;
+    right: 20px;
+    margin-top: -20px;
+    padding: 10px 20px;
+	background-color: #363636;
+	color: white;
+	border: none;
+	border-radius: 20px;
+	font-size: 16px;
+	text-decoration: none;
+	cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.auth-buttons button-logout {
+    position: absolute;
+    right: 140px;
+    margin-top: -20px;
+    padding: 10px 20px;
+	background-color: #363636;
+	color: white;
+	border: none;
+	border-radius: 20px;
+	font-size: 16px;
+	text-decoration: none;
+	cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.auth-buttons button-logout:hover {
+    background-color: #946efb;
+}
+
+.auth-buttons button-home:hover {
+    background-color: #946efb;
 }
 
 .auth-buttons button:hover {
