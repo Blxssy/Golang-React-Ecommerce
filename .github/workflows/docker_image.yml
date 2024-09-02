@@ -1,14 +1,9 @@
 name: Docker image on DockerHub
 
 on:
-  merge_group:
-    branches:
-      - main'
-    paths:
-      - 'backend/**'
   push:
     branches:
-      - main'
+      - main
     paths:
       - 'backend/**'
 
@@ -18,20 +13,20 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
-      - name: Set up
+      - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
-      - name: Log in
+      - name: Log in to DockerHub
         uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Build / Push
+      - name: Build and Push Docker image
         uses: docker/build-push-action@v4
         with:
-          context: .
+          context: ./backend
           push: true
           tags: blxsyy/e-commerce-backend:latest
