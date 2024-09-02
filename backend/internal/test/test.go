@@ -19,7 +19,7 @@ func PrepareForServiceTest() container.Container {
 	logger := initTestLogger()
 	container := initContainer(conf, logger)
 
-	migration.CreateDatabase(container)
+	migration.CreateTestDB(container)
 	migration.InitData(container)
 
 	return container
@@ -32,7 +32,7 @@ func PrepareForControllerTest() (*gin.Engine, container.Container) {
 	logger := initTestLogger()
 	container := initContainer(conf, logger)
 
-	migration.CreateDatabase(container)
+	migration.CreateTestDB(container)
 	migration.InitData(container)
 
 	return g, container

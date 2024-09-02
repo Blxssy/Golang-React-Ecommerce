@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"fmt"
 	"github.com/Blxssy/Golang-React-Ecommerce/internal/config"
 	"github.com/Blxssy/Golang-React-Ecommerce/internal/migration"
 	"github.com/Blxssy/Golang-React-Ecommerce/internal/test"
@@ -27,7 +26,7 @@ func TestUserController_GetUserByID(t *testing.T) {
 	rec := httptest.NewRecorder()
 
 	router.ServeHTTP(rec, req)
-	fmt.Println(rec.Body.String())
+
 	assert.Equal(t, http.StatusOK, rec.Code)
 	assert.JSONEq(t, `{
     "email": "test@test.com",
