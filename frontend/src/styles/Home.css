@@ -5,14 +5,14 @@
 } */
 
 .home {
-	background-image: url('../../images/krossovk.png'); 
+	background-image: url('/Users/Amogus/Golang-React-Ecommerce/frontend/images/krossovk.png'); /* Замените на путь к вашему изображению */
 	background-size: cover;
 	background-repeat: no-repeat;
 	background-attachment: scroll;
-	min-height: 700vh; 
+	min-height: 700vh; /* Увеличенная высота для длинного фона */
 	display: flex;
 	flex-direction: column;
-	/* justify-content: space-between; */
+	justify-content: space-between;
 	align-items: center;
 	text-align: center;
 }
@@ -26,11 +26,11 @@
 
 .top-button-container {
 	text-align: center;
-	margin-top: 20px; 
+	margin-top: 20px; /* Расположим кнопку сверху */
 }
   
 .middle-button-container {
-	margin-top: calc(110vh ); 
+	margin-top: calc(110vh ); /* Расположим кнопку в середине страницы */
 	text-align: center;
 }
   
@@ -71,19 +71,4 @@
 .bebr-button:hover {
 	background-color: #946efb;
 	transform: scale(1.1); 
-}
-
-.prev {
-	padding: 10px 40px;
-	float: left;
-	/* margin-left: 10px;  */
-	/* margin-left: 15px; */
-	margin-top: 20vh;
-}
-
-.next {
-	padding: 10px 40px;
-	float: right;
-	/* margin-right: 15px;  */
-	margin-top: 20vh;
 }
