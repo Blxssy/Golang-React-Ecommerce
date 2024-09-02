@@ -9,7 +9,7 @@ func CreateDatabase(container container.Container) {
 	if container.GetConfig().Database.Migration {
 		db := container.GetRepository()
 
-		//_ = db.DropTableIfExists(&models.User{})
+		_ = db.DropTableIfExists(&models.User{})
 		//_ = db.DropTableIfExists(&models.Cart{})
 		//_ = db.DropTableIfExists(&models.CartItem{})
 		//_ = db.DropTableIfExists(&models.Product{})
