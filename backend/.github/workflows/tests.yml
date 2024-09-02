@@ -1,0 +1,43 @@
+name: Backend tests
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: 1.21
+
+      - name: Set up PostgreSQL
+        uses: harmon758/postgresql-action@v2
+        with:
+          postgresql version: '14'
+          postgresql db: 'test'
+          postgresql user: 'postgres'
+          postgresql password: 'postgres'
+
+      - name: Install dependencies
+        run: go mod tidy
+
+      - name: Run tests
+        env:
+          DATABASE_HOST: localhost
+          DATABASE_PORT: 5432
+          DATABASE_USER: postgres
+          DATABASE_PASSWORD: postgres
+          DATABASE_NAME: test
+        run: go test -v ./...
