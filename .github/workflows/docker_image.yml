@@ -1,6 +1,11 @@
 name: Docker image on DockerHub
 
 on:
+  merge_group:
+    branches:
+      - main'
+    paths:
+      - 'backend/**'
   push:
     branches:
       - main'
