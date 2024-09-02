@@ -12,13 +12,15 @@ import (
 	"testing"
 )
 
-func TestUserController_GetUserByID(t *testing.T) {
-	router, container := test.PrepareForControllerTest()
+var router, ctr = test.PrepareForControllerTest()
 
-	user := NewUserController(container)
+func TestUserController_GetUserByID(t *testing.T) {
+	//router, ctr := test.PrepareForControllerTest()
+
+	user := NewUserController(ctr)
 	router.GET(config.APIUsersID, user.GetUserByID)
 
-	migration.InitData(container)
+	migration.InitData(ctr)
 
 	uri := request.NewRequestBuilder().URL(config.APIUsers).PathParams("1").Build().GetRequestURL()
 	req := httptest.NewRequest("GET", uri, nil)
@@ -36,9 +38,9 @@ func TestUserController_GetUserByID(t *testing.T) {
 }
 
 func TestUserController_RegisterUser(t *testing.T) {
-	router, container := test.PrepareForControllerTest()
+	//router, ctr := test.PrepareForControllerTest()
 
-	user := NewUserController(container)
+	user := NewUserController(ctr)
 	router.POST(config.APIREGISTER, user.RegisterUser)
 
 	param := createUserForRegister()
@@ -52,9 +54,9 @@ func TestUserController_RegisterUser(t *testing.T) {
 }
 
 func TestUserController_LoginUser(t *testing.T) {
-	router, container := test.PrepareForControllerTest()
+	//router, ctr := test.PrepareForControllerTest()
 
-	user := NewUserController(container)
+	user := NewUserController(ctr)
 	router.POST(config.APILOGIN, user.Login)
 
 	param := createUserForLogin()
@@ -68,9 +70,9 @@ func TestUserController_LoginUser(t *testing.T) {
 }
 
 func TestUserController_GetUsers(t *testing.T) {
-	router, container := test.PrepareForControllerTest()
+	//router, ctr := test.PrepareForControllerTest()
 
-	user := NewUserController(container)
+	user := NewUserController(ctr)
 	router.GET(config.APIUsers, user.GetUsers)
 
 	req := httptest.NewRequest("GET", config.APIUsers, nil)
@@ -83,9 +85,9 @@ func TestUserController_GetUsers(t *testing.T) {
 }
 
 //func TestUserController_RefreshToken(t *testing.T) {
-//	router, container := test.PrepareForControllerTest()
+//	router, ctr := test.PrepareForControllerTest()
 //
-//	user := NewUserController(container)
+//	user := NewUserController(ctr)
 //	router.POST(config.APIREFRESH, user.RefreshTokens)
 //
 //	param := createRefreshToken()
