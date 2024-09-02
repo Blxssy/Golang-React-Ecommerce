@@ -42,7 +42,7 @@ jobs:
 
       - name: Run tests
         env:
-          DATABASE_HOST: db
+          DATABASE_HOST: localhost
           DATABASE_PORT: 5432
           DATABASE_USER: postgres
           DATABASE_PASSWORD: postgres

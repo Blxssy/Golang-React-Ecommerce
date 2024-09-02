@@ -41,7 +41,7 @@ func PrepareForControllerTest() (*gin.Engine, container.Container) {
 func createConfig() *config.Config {
 	conf := &config.Config{}
 	conf.Database.Dialect = "postgres"
-	conf.Database.Host = "db"
+	conf.Database.Host = "localhost"
 	conf.Database.Name = "test"
 	conf.Database.Port = "5432"
 	conf.Database.Username = "postgres"
