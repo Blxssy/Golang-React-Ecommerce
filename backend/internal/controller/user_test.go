@@ -84,23 +84,6 @@ func TestUserController_GetUsers(t *testing.T) {
 	assert.NotEmpty(t, rec.Body.String())
 }
 
-//func TestUserController_RefreshToken(t *testing.T) {
-//	router, ctr := test.PrepareForControllerTest()
-//
-//	user := NewUserController(ctr)
-//	router.POST(config.APIREFRESH, user.RefreshTokens)
-//
-//	param := createRefreshToken()
-//
-//	req := test.NewJSONRequest("POST", config.APIREFRESH, param)
-//	rec := httptest.NewRecorder()
-//
-//	router.ServeHTTP(rec, req)
-//
-//	assert.Equal(t, http.StatusOK, rec.Code)
-//	assert.NotEmpty(t, rec.Body.String())
-//}
-
 type RefreshToken struct {
 	RefreshToken string `json:"refresh_token"`
 }
