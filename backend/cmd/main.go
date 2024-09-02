@@ -29,6 +29,7 @@ func main() {
 		log.Fatalf("Error loading .env file")
 		os.Exit(1)
 	}
+
 	token.InitJWTKey()
 
 	g := gin.Default()
