@@ -33,26 +33,37 @@ const Header = () => {
             {user ? (
                 <div className="profile-section">
                         <div className="auth-buttons">
-                    <button-logout onClick={handleLogout}>
-                        Logout 
-                        <IoIosLogOut />
-                    </button-logout>
-                    <button-home onClick={() => navigate('/ ')}> Home <IoIosHome /></button-home>
+                            <button className="button-logout" onClick={handleLogout}>
+                                Logout&nbsp;<IoIosLogOut style={{ position: 'relative', top: '-2px' }}/>
+                            </button>
+                            <button className="button-home" onClick={() => navigate('/')}>
+                                Home&nbsp;<IoIosHome style={{ position: 'relative', top: '-2px' }}/>
+                            </button>
                         </div>
-                        <h2>{user.username}</h2> 
+                        {/* <h2 className="header-title">{user.username}</h2>
                     <img
-                        // src="https://bigpicture.ru/wp-content/uploads/2021/10/bigpicture_ru_duejn-skala-dzhonson-zhestko-mem.jpg"
                         src={`${user.img}`}
                         alt="profile"
                         onClick={() => navigate('/profile')}
                         className="profile-avatar"
-                    />
+                    /> */}
+                        <div className="header-container">
+                            <h2 className="header-title">{user.username}</h2>
+                            <img
+                                src={`${user.img}`}
+                                alt="profile"
+                                onClick={() => navigate('/profile')}
+                                className="profile-avatar"
+                            />
+                         </div>
                 </div>
             ) : (
                 <div className="auth-buttons">
                     <button onClick={() => navigate('/register')}>Register</button>
                     <button onClick={() => navigate('/login')}>Login</button>
-                    <button-home onClick={() => navigate('/ ')}> Home <IoIosHome /></button-home>
+                        <button className="button-home-nl" onClick={() => navigate('/')}>
+                                Home&nbsp;<IoIosHome style={{ position: 'relative', top: '-2px' }}/>
+                        </button>
                 </div>
             )}
         </div>

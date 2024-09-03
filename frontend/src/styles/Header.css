@@ -1,16 +1,15 @@
 .header {
+    /* margin-top: 20px; */
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 20px;
+    padding: 40px 20px;
     background-color: white;
-    /* border-bottom: 1px solid #ddd; */
 }
 
 .auth-buttons {
     display: flex;
     gap: 10px;
-    /* margin-left: auto;  */
 }
 
 .auth-buttons button {
@@ -25,10 +24,24 @@
     transition: background-color 0.3s ease-in-out;
 }
 
-.auth-buttons button-home {
+.auth-buttons .button-home {
+    position: absolute;
+    left: 20px;
+    margin-top: -20px;
+    padding: 10px 20px;
+	background-color: #363636;
+	color: white;
+	border: none;
+	border-radius: 20px;
+	font-size: 16px;
+	text-decoration: none;
+	cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.auth-buttons .button-home-nl {
     position: absolute;
     right: 20px;
-    margin-top: -20px;
     padding: 10px 20px;
 	background-color: #363636;
 	color: white;
@@ -40,9 +53,9 @@
     transition: background-color 0.3s ease-in-out;
 }
 
-.auth-buttons button-logout {
+.auth-buttons .button-logout {
     position: absolute;
-    right: 140px;
+    left: 140px;
     margin-top: -20px;
     padding: 10px 20px;
 	background-color: #363636;
@@ -55,13 +68,19 @@
     transition: background-color 0.3s ease-in-out;
 }
 
-.auth-buttons button-logout:hover {
+.auth-buttons .button-home, 
+.auth-buttons .button-logout, 
+.auth-buttons .button-home-nl {
+    display: flex;
+    align-items: center;
+  }
+
+.auth-buttons .button-logout:hover,
+.auth-buttons .button-home:hover,
+.auth-buttons .button-home-nl:hover {
     background-color: #946efb;
 }
 
-.auth-buttons button-home:hover {
-    background-color: #946efb;
-}
 
 .auth-buttons button:hover {
     background-color: #946efb;
@@ -69,17 +88,16 @@
 
 .profile-section {
     display: flex;
+    /* right: 20px; */
     align-items: center;
     gap: 10px;
 }
 
-.profile-avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    cursor: pointer;
+/* .profile-name {
+    position: absolute;
+    margin-left: 20px;
     object-fit: cover;
-}
+} */
 
 button {
     padding: 10px 20px;
@@ -95,4 +113,35 @@ button {
 
 button:hover {
     background-color: #946EFB;
+}
+
+/* .header-title {
+    position: absolute;
+    margin-top: 60px;   
+    right: 20px;
+} */
+
+.header-container {
+    position: absolute;
+    top: 20px; 
+    right: 20px;
+    align-items: center; 
+    justify-content: flex-end;
+    align-items: center;
+    display: flex;
+}
+
+.header-title {
+    margin: 0; 
+    margin-right: 20px; 
+    font-size: 24px; 
+    color: #363636; 
+}
+
+.profile-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    object-fit: cover;
 }
