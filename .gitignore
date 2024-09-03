@@ -4,8 +4,5 @@
 .package-lock.json
 .package.json
 .node_modules
-<<<<<<< HEAD
-/node_modules
-=======
 
->>>>>>> b4c47dfb2920e20facd195bb6b6851abdcd118ea
+/node_modules
