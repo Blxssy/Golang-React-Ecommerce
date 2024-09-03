@@ -40,8 +40,8 @@ func NewStorage(logger *slog.Logger, config *config.Config) Storage {
 	if err != nil {
 		logger.Error("Failure database connection")
 	}
-	logger.Info("Successfully connection to database")
-	logger.Info("db", slog.String("port", config.Port))
+	//logger.Info("Successfully connection to database")
+	//logger.Info("db", slog.String("port", config.Port))
 	return &storage{
 		db: db,
 	}
