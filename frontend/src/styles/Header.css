@@ -3,7 +3,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 20px;
+    padding: 40px 20px;
     background-color: white;
 }
 
@@ -27,7 +27,7 @@
 .auth-buttons .button-home {
     position: absolute;
     left: 20px;
-    /* margin-top: -20px; */
+    margin-top: -20px;
     padding: 10px 20px;
 	background-color: #363636;
 	color: white;
@@ -56,7 +56,7 @@
 .auth-buttons .button-logout {
     position: absolute;
     left: 140px;
-    /* margin-top: -20px; */
+    margin-top: -20px;
     padding: 10px 20px;
 	background-color: #363636;
 	color: white;
@@ -122,14 +122,13 @@ button:hover {
 } */
 
 .header-container {
-    right: 80%;
-    display: flex;
+    position: absolute;
     top: 20px; 
     right: 20px;
     align-items: center; 
     justify-content: flex-end;
-    position: relative; 
-    /* margin-top: 20px;  */
+    align-items: center;
+    display: flex;
 }
 
 .header-title {
