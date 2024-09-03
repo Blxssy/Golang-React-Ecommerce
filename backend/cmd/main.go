@@ -33,6 +33,7 @@ func main() {
 	token.InitJWTKey()
 
 	g := gin.Default()
+
 	g.GET("/swagger/*any", ginSwagger.WrapHandler(files.Handler))
 
 	cfg := config.NewConfig()

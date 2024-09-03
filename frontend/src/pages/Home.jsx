@@ -142,7 +142,7 @@
 
 
 import React, { useState, useEffect } from 'react';
-import '/Users/Amogus/Golang-React-Ecommerce/frontend/src/styles/Home.css';
+import '../styles/Home.css';
 import api from "../services/api";
 
 const Home = () => {
