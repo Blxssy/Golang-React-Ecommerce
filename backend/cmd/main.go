@@ -1,12 +1,11 @@
 package main
 
 import (
-	"log"
-	"os"
-
 	"github.com/Blxssy/Golang-React-Ecommerce/internal/utils/token"
 	files "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
+	"log"
+	"os"
 
 	_ "github.com/Blxssy/Golang-React-Ecommerce/docs"
 	"github.com/Blxssy/Golang-React-Ecommerce/internal/config"
@@ -24,10 +23,13 @@ const (
 )
 
 func main() {
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatalf("Error loading .env file")
-		os.Exit(1)
+	exists := godotenv.Load(".env")
+	if exists != nil {
+		err := godotenv.Load("example.env")
+		if err != nil {
+			log.Println("Error loading .env file")
+			os.Exit(1)
+		}
 	}
 
 	token.InitJWTKey()
