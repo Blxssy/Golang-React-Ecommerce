@@ -76,15 +76,15 @@ func (cart *cartController) GetCart(c *gin.Context) {
 // @Failure 400 {object} map[string]interface{} "{"error": "string"}"
 // @Router /api/cart/items [post]
 func (cart *cartController) AddItem(c *gin.Context) {
-	accessToken, err := c.Cookie("access_token")
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	id, exists := c.Get("user_id")
+	if !exists {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "User ID not found"})
 		return
 	}
 
-	uid, err := token.ParseToken(accessToken)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	uid, ok := id.(uint)
+	if !ok {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Invalid user ID"})
 		return
 	}
 
@@ -98,7 +98,7 @@ func (cart *cartController) AddItem(c *gin.Context) {
 		return
 	}
 
-	err = cart.service.AddItem(uid, input.ProductID, input.Quantity)
+	err := cart.service.AddItem(uid, input.ProductID, input.Quantity)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return

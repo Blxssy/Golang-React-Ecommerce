@@ -158,7 +158,7 @@ func (u *userController) RefreshTokens(c *gin.Context) {
 
 // GetInfo godoc
 // @Summary Get user info
-// @Description Take access token from header  and provide user info
+// @Description Take access token from header and provide user info
 // @Tags Users
 // @Accept json
 // @Produce json
@@ -166,20 +166,19 @@ func (u *userController) RefreshTokens(c *gin.Context) {
 // @Failure 400 {object} map[string]string "Invalid token"
 // @Router /api/auth/user-info [get]
 func (u *userController) GetInfo(c *gin.Context) {
-	accessToken, err := c.Cookie("access_token")
-
-	if err != nil {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "Access token not found in cookies"})
+	id, exists := c.Get("user_id")
+	if !exists {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "User ID not found"})
 		return
 	}
 
-	userID, err := token.VerifyToken(accessToken)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	uid, ok := id.(uint)
+	if !ok {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Invalid user ID"})
 		return
 	}
 
-	user, err := u.service.FindById(strconv.Itoa(int(userID)))
+	user, err := u.service.FindById(strconv.Itoa(int(uid)))
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return

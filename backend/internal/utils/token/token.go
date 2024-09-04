@@ -88,6 +88,7 @@ func ValidateToken(refreshToken string) bool {
 
 func VerifyToken(tokenString string) (uint, error) {
 	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
+		// Проверяем, что метод подписи совпадает с ожидаемым
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
 		}
@@ -102,12 +103,11 @@ func VerifyToken(tokenString string) (uint, error) {
 		if userIDFloat, ok := claims["user_id"].(float64); ok {
 			userID := uint(userIDFloat)
 			return userID, nil
-		} else {
-			return 0, fmt.Errorf("user_id not found in token claims")
 		}
-	} else {
-		return 0, fmt.Errorf("invalid token")
+		return 0, fmt.Errorf("user_id not found in token claims")
 	}
+
+	return 0, fmt.Errorf("invalid token")
 }
 
 //func ParseToken(r *http.Request) (uint, error) {
