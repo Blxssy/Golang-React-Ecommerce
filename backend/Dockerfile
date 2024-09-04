@@ -5,8 +5,6 @@ WORKDIR /app
 COPY go.mod go.sum ./
 RUN go mod download
 
-COPY .env ./
-
 COPY . ./
 
 RUN go install github.com/swaggo/swag/cmd/swag@latest
