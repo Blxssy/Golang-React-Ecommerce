@@ -4,7 +4,6 @@ import (
 	"github.com/Blxssy/Golang-React-Ecommerce/internal/config"
 	"github.com/Blxssy/Golang-React-Ecommerce/internal/container"
 	"github.com/Blxssy/Golang-React-Ecommerce/internal/controller"
-	token2 "github.com/Blxssy/Golang-React-Ecommerce/internal/utils/token"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
@@ -14,6 +13,7 @@ func Init(g *gin.Engine, container container.Container) {
 	setUserController(g, container)
 	setProductController(g, container)
 	setCartController(g, container)
+	setOrderController(g, container)
 }
 
 func setCORSConfig(g *gin.Engine) {
@@ -64,23 +64,13 @@ func setCartController(g *gin.Engine, container container.Container) {
 	}
 }
 
-func AuthMiddleware() gin.HandlerFunc {
-	return func(c *gin.Context) {
-		token, err := c.Cookie("access_token")
-		if err != nil {
-			c.JSON(401, gin.H{"error": "Unauthorized"})
-			c.Abort()
-			return
-		}
+func setOrderController(g *gin.Engine, container container.Container) {
+	order := controller.NewOrderController(container)
 
-		uid, err := token2.VerifyToken(token)
-		if err != nil {
-			c.JSON(401, gin.H{"error": "Invalid token"})
-			c.Abort()
-			return
-		}
-
-		c.Set("user_id", uid)
-		c.Next()
+	protected := g.Group("/")
+	protected.Use(AuthMiddleware())
+	{
+		protected.POST(config.APICREATEORDER, order.CreateOrder)
+		protected.GET(config.APIORDER, order.GetOrders)
 	}
 }

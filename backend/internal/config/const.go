@@ -20,3 +20,8 @@ const (
 	APICART      = API + "/cart"
 	APICARTITEMS = APICART + "/items"
 )
+
+const (
+	APIORDER       = API + "/order"
+	APICREATEORDER = APIORDER + "/create"
+)

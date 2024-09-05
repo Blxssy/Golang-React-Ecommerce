@@ -33,6 +33,11 @@ func (s *cartService) AddItem(userID uint, productID uint, quantity int) error {
 		return err
 	}
 
+	var product models.Product
+	if err := s.container.GetRepository().First(&product, "id = ?", productID).Error; err != nil {
+		return err
+	}
+
 	//logger.Info("cartInfo", slog.Any("cart", cart))
 
 	var cartItem *models.CartItem
@@ -55,13 +60,21 @@ func (s *cartService) AddItem(userID uint, productID uint, quantity int) error {
 			CartID:    cart.ID,
 			ProductId: productID,
 			Quantity:  quantity,
+			Price:     product.Price,
 		}
 
 		// Добавляем новый элемент в корзину с помощью Association
-		if err := s.container.GetRepository().Model(&cart).Association("Items").Append(&newCartItem); err != nil {
+		if err := s.container.GetRepository().Preload("Products").Model(&cart).Association("Items").Append(&newCartItem); err != nil {
 			return err
 		}
+
 	}
+
+	totalPrice := 0
+	for _, item := range cart.Items {
+		totalPrice += item.Price * item.Quantity
+	}
+	cart.TotalPrice = totalPrice
 
 	// Сохранение корзины (необязательно, если изменения в элементах автоматически сохраняются)
 	if err := s.SaveCart(&cart); err != nil {

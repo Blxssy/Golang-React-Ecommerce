@@ -8,16 +8,18 @@ import (
 type Cart struct {
 	gorm.Model
 
-	UserID uint       `json:"user_id"`
-	Items  []CartItem `json:"items"`
+	UserID     uint       `json:"user_id"`
+	Items      []CartItem `json:"items"`
+	TotalPrice int        `json:"total_price"`
 }
 
 type CartItem struct {
 	gorm.Model
 
 	CartID    uint `json:"cart_id"`
-	ProductId uint `json:"product_id"`
+	ProductId uint `json:"product_id" gorm:"foreignKey:ProductID"`
 	Quantity  int  `json:"quantity"`
+	Price     int  `json:"price"`
 }
 
 func (c *Cart) Save(s storage.Storage) error {
