@@ -5,7 +5,7 @@
 } */
 
 .home {
-	background-image: url('/Users/Amogus/Golang-React-Ecommerce/frontend/images/krossovk.png'); 
+	background-image: url('../../images/krossovk.png');
 	background-size: cover;
 	background-repeat: no-repeat;
 	background-attachment: scroll;
