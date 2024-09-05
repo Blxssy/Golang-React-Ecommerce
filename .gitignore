@@ -1,7 +1,6 @@
 .idea/
 .DS_Store
-.config.yaml
-.package-lock.json
-.package.json
-.node_modules
-
+config.yaml
+package-lock.json
+package.json
+node_modules

@@ -7,6 +7,11 @@
     background-color: white;
 }
 
+/* .auth-buttons {
+    display: flex;
+    gap: 10px;
+} */
+
 .auth-buttons {
     display: flex;
     gap: 10px;

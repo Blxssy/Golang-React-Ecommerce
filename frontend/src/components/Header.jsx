@@ -3,8 +3,9 @@ import {useNavigate} from "react-router-dom";
 import api from "../services/api";
 import '../styles/Header.css'
 import Cookies from "js-cookie";
-import { IoIosHome } from "react-icons/io";
-import { IoIosLogOut } from "react-icons/io";
+// import { IoIosHome } from "react-icons/io";
+// import { IoIosLogOut } from "react-icons/io";
+import { IoIosHome, IoIosLogOut } from 'react-icons/io';
 
 const Header = () => {
     const [user, setUser] = useState()
