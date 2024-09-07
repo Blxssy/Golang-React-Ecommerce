@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Home from './pages/Home';
 import Profile from './pages/Profile';
 import Header from "./components/Header";
+import BottomMenu from "./components/BottomMenu";
 import './App.css';
 import Register from "./pages/Register";
 import Login from "./pages/Login";
@@ -17,6 +18,7 @@ function App() {
 			<Router>
 				<div className="App">
 					<Header />
+					<BottomMenu />
 					<Routes>
 						<Route path="/" element={<Home />} />
 						<Route path="/test" element={<HomeTest />} />
