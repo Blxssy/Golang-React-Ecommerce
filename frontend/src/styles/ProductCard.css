@@ -16,7 +16,8 @@
 .products-container {
 	display: flex;
 	justify-content: center;
-	margin-top: 10px;
+	margin-top: 50px;
+	margin-bottom: 50px;
 }
   
 .product-grid {
@@ -59,6 +60,7 @@
 	cursor: pointer; 
 	text-decoration: underline; 
 	transform: scale(1.05);
+	z-index: 1;
 }
 
 .product-item img {
