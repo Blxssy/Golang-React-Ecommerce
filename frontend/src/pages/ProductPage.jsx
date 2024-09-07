@@ -41,22 +41,51 @@ const ProductDetailPage = () => {
   }
 
   const handleAddToCart = async () => {
+    // try {
+    //   const accessToken = getCookie('access_token'); 
+
+    //   const response = await fetch('http://localhost:3001/api/cart/items', {
+    //     method: 'POST',
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //       'Accept': 'application/json',
+    //       'Authorization': `Bearer ${accessToken}`
+    //     },
+    //     body: JSON.stringify({ 
+    //       product_id: product.id,  
+    //       quantity: 1
+    //     }), 
+    //   });
+
+    //   if (response.ok) {
+    //     console.log('Product added to cart successfully!');
+    //   } else {
+    //     console.error('Failed to add product to cart');
+    //   }
+    // } catch (error) {
+    //   console.error('Error adding product to cart:', error);
+    // }
     try {
+      const accessToken = getCookie('access_token'); 
+  
       const response = await fetch('http://localhost:3001/api/cart/items', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'accept': 'application/json',
+          'access_token': accessToken, 
+          // 'Authorization': `Bearer ${accessToken}`
         },
         body: JSON.stringify({ 
-          product_id: product.id,
+          product_id: product.id,  
           quantity: 1  
         }), 
       });
-
+  
       if (response.ok) {
         console.log('Product added to cart successfully!');
       } else {
-        console.error('Failed to add product to cart');
+        console.error('Failed to add product to cart', response.status, response.statusText);
       }
     } catch (error) {
       console.error('Error adding product to cart:', error);
@@ -80,6 +109,12 @@ const ProductDetailPage = () => {
       </div>
     </div>
   );
+};
+
+const getCookie = (name) => {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop().split(';').shift();
 };
 
 export default ProductDetailPage;
