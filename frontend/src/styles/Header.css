@@ -6,6 +6,14 @@
     background-color: white;
 }
 
+.header-logged {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background-color: white;
+}
+
 .auth-buttons {
     display: flex;
     gap: 10px;

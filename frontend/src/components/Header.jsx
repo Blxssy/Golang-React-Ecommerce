@@ -31,44 +31,39 @@ const Header = () => {
 
     return (
         <div className="header">
-            {user ? (
-                <div className="profile-section">
-                        <div className="auth-buttons">
-                            <button className="button-logout" onClick={handleLogout}>
-                                Logout&nbsp;<IoIosLogOut style={{ position: 'relative', top: '-2px' }}/>
-                            </button>
-                            <button className="button-home" onClick={() => navigate('/')}>
-                                Home&nbsp;<IoIosHome style={{ position: 'relative', top: '-2px' }}/>
-                            </button>
-                        </div>
-                        {/* <h2 className="header-title">{user.username}</h2>
-                    <img
-                        src={`${user.img}`}
-                        alt="profile"
-                        onClick={() => navigate('/profile')}
-                        className="profile-avatar"
-                    /> */}
-                        <div className="header-container">
-                            <h2 className="header-title">{user.username}</h2>
-                            <img
-                                src={`${user.img}`}
-                                alt="profile"
-                                onClick={() => navigate('/profile')}
-                                className="profile-avatar"
-                            />
-                         </div>
+          {user ? (
+            <div className="profile-section">
+              <div className="header-logged">
+                <div className="header-container">
+                  <h2 className="header-title">{user.username}</h2>
+                  <img
+                    src={`${user.img}`}
+                    alt="profile"
+                    onClick={() => navigate('/profile')}
+                    className="profile-avatar"
+                  />
                 </div>
-            ) : (
-                <div className="auth-buttons">
-                    <button onClick={() => navigate('/register')}>Register</button>
-                    <button onClick={() => navigate('/login')}>Login</button>
-                        <button className="button-home-nl" onClick={() => navigate('/')}>
-                                Home&nbsp;<IoIosHome style={{ position: 'relative', top: '-2px' }}/>
-                        </button>
-                </div>
-            )}
+              </div>
+              <div className="auth-buttons">
+                <button className="button-logout" onClick={handleLogout}>
+                  Logout&nbsp;<IoIosLogOut style={{ position: 'relative', top: '-2px' }} />
+                </button>
+                <button className="button-home" onClick={() => navigate('/')}>
+                  Home&nbsp;<IoIosHome style={{ position: 'relative', top: '-2px' }} />
+                </button>
+              </div>
+            </div>
+          ) : (
+            <div className="auth-buttons">
+              <button onClick={() => navigate('/register')}>Register</button>
+              <button onClick={() => navigate('/login')}>Login</button>
+              <button className="button-home-nl" onClick={() => navigate('/')}>
+                Home&nbsp;<IoIosHome style={{ position: 'relative', top: '-2px' }} />
+              </button>
+            </div>
+          )}
         </div>
-    );
+      );
 };
 
 export default Header;
