@@ -19,21 +19,27 @@
   }
   
   .menu-item {
-    background-color: white;
+    /* background-color: white; */
+    /* background-color: rgba(128, 128, 128, 0.5); */
     padding: 10px;
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    transition: background-color 0.3s ease-in-out;
+    /* transition: background-color 0.3s ease-in-out; */
   }
   
   .menu-item svg {
     color: #363636; 
+    transition: color 0.3s ease-in-out;
   }
   
-  .menu-item:hover {
-    background-color: #946EFB; 
+  .menu-item svg:hover{
+    color: #946EFB; 
   }
+
+  /* .menu-item:hover {
+    background-color: #946EFB; 
+  } */
   
