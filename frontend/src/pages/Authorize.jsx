@@ -2,11 +2,32 @@ import React, { useState } from 'react';
 import '../styles/Authorize.css'
 
 const Authorize = () => {
-  const [isActive, setIsActive] = useState(false); // Управление состоянием "active"
+  const [isActive, setIsActive] = useState(false); 
+
+  const handleRegister = async () => {
+    try {
+        const response = await api.post('/auth/register', { username, email, password });
+        const { access_token, refresh_token } = response.data;
+
+        Cookies.set('access_token', access_token);
+        Cookies.set('refresh_token', refresh_token);
+
+        setMessage('Register successful');
+
+        navigate('/');
+        window.location.reload();
+    } catch (error) {
+        if (error.response && error.response.status === 401) {
+            setMessage('Invalid credentials');
+        } else {
+            setMessage('Login failed, try another email or password');
+        }
+    }
+};
 
   return (
     <div className={`container ${isActive ? 'active' : ''}`} id="container">
-      <div className="form-container sign-up">
+      {/* <div className="form-container sign-up">
         <form>
           <h1>Create Account</h1>
           <div className="social-icons">
@@ -21,7 +42,37 @@ const Authorize = () => {
           <input type="password" placeholder="Password" />
           <button type="submit">Sign Up</button>
         </form>
-      </div>
+      </div> */}
+      <form onSubmit={handleRegister}>
+        <h1>Create Account</h1>
+        <div className="social-icons">
+          <a href="#" className="icon"><i className="fa-brands fa-google-plus-g"></i></a>
+          <a href="#" className="icon"><i className="fa-brands fa-facebook-f"></i></a>
+          <a href="#" className="icon"><i className="fa-brands fa-github"></i></a>
+          <a href="#" className="icon"><i className="fa-brands fa-linkedin-in"></i></a>
+        </div>
+        <span>or use your email for registration</span>
+        <input 
+          type="text" 
+          placeholder="Name" 
+          value={username} 
+          onChange={(e) => setUsername(e.target.value)} 
+        />
+        <input 
+          type="email" 
+          placeholder="Email" 
+          value={email} 
+          onChange={(e) => setEmail(e.target.value)} 
+        />
+        <input 
+          type="password" 
+          placeholder="Password" 
+          value={password} 
+          onChange={(e) => setPassword(e.target.value)} 
+        />
+        <button type="submit">Sign Up</button>
+        <p>{message}</p> {/* Display any message to the user */}
+      </form>
 
       <div className="form-container sign-in">
         <form>
