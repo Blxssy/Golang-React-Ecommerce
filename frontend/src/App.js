@@ -52,8 +52,8 @@ import BottomMenu from './components/BottomMenu';
 import Home from './pages/Home';
 // import HomeTest from './pages/HomeTest';
 import Authorize from './pages/Authorize';
-import Register from './pages/Register';
-import Login from './pages/Login';
+// import Register from './pages/Register';
+// import Login from './pages/Login';
 import Profile from './pages/Profile';
 import ProductList from './pages/ProductList';
 import ProductPage from './pages/ProductPage';
@@ -76,8 +76,8 @@ function AppContent() {
         <Route path="/" element={<Home />} />
         {/* <Route path="/test" element={<HomeTest />} /> */}
         <Route path="/authorize" element={<Authorize />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/login" element={<Login />} />
+        {/* <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} /> */}
         <Route path="/profile" element={<Profile />} />
         <Route path="/products" element={<ProductList />} />
         <Route path="/products/:id" element={<ProductPage />} />
