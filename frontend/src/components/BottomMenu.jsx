@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+// import React, { useState } from 'react';
 import '../styles/BottomMenu.css';
 import {useNavigate} from "react-router-dom";
 import { FaThLarge, FaSearch, FaShoppingCart } from 'react-icons/fa'; 

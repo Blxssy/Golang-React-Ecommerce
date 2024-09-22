@@ -55,8 +55,8 @@ const Header = () => {
             </div>
           ) : (
             <div className="auth-buttons">
-              <button onClick={() => navigate('/register')}>Register</button>
-              <button onClick={() => navigate('/login')}>Login</button>
+              <button onClick={() => navigate('/authorize')}>Register</button>
+              <button onClick={() => navigate('/authorize')}>Login</button>
               <button className="button-home-nl" onClick={() => navigate('/')}>
                 Home&nbsp;<IoIosHome style={{ position: 'relative', top: '-2px' }} />
               </button>
